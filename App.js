@@ -20,11 +20,12 @@ export default function App() {
       >
         <View style={styles.formWrapper}>
           <View style={styles.titleWrapper}>
-            <Text style={styles.text}>Регистрация</Text>
+            <Text style={styles.title}>Регистрация</Text>
           </View>
           <View style={styles.test}>
             <TextInput
-              placeholder="Type text"
+              style={styles.inputLogin}
+              placeholder="Логин"
               value={value}
               onChangeText={inputHandler}
             />
@@ -42,10 +43,21 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     // justifyContent: "center",
   },
+
+  imgBG: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "flex-end",
+
+    // alignItems: "center",
+  },
+
   titleWrapper: {
     alignItems: "center",
   },
-  text: {
+
+  title: {
+    marginTop: 92,
     color: `#212121`,
     fontSize: 30,
     letterSpacing: 0.01,
@@ -65,6 +77,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
 
+  inputLogin: {
+    borderWidth: 1,
+    borderColor: "#E8E8E8",
+    borderRadius: 8,
+    backgroundColor: "#F6F6F6",
+    height: 50,
+    paddingHorizontal: 16,
+    marginTop: 32,
+  },
   // test: {
   //   flex: 1,
   //   backgroundColor: "transparent",
