@@ -7,15 +7,19 @@ import {
   TextInput,
   ImageBackground,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 
 export default function App() {
   const [loginValue, setLoginValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
+  const [platform, setPlatform] = useState("");
+
   const inputHandlerLogin = (text) => setLoginValue(text);
   const inputHandlerEmail = (text) => setEmailValue(text);
   const inputHandlerPassword = (text) => setPasswordValue(text);
+  console.log(Platform.OS);
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -56,7 +60,8 @@ export default function App() {
             />
           </View>
           <TouchableOpacity
-            style={styles.button}
+            style={styles.btn}
+            activeOpacity={0.7}
             // onPress={onPress}
           >
             <Text style={styles.btnName}>Зарегистрироваться</Text>
@@ -86,6 +91,7 @@ const styles = StyleSheet.create({
     height: 550,
     paddingHorizontal: 16,
     paddingTop: 92,
+    paddingBottom: 45,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     backgroundColor: "#fff",
@@ -134,7 +140,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
 
-  button: {
+  btn: {
     backgroundColor: "#FF6C00",
     height: 51,
     borderRadius: 100,
