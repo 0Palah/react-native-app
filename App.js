@@ -7,82 +7,127 @@ import {
   TextInput,
   ImageBackground,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   Platform,
   KeyboardAvoidingView,
+  Keyboard,
 } from "react-native";
 
-export default function App() {
-  const [loginValue, setLoginValue] = useState("");
-  const [emailValue, setEmailValue] = useState("");
-  const [passwordValue, setPasswordValue] = useState("");
-  const [platform, setPlatform] = useState("");
+import RegistrationScreen from "./Screens/RegistrationScreen";
 
-  const inputHandlerLogin = (text) => setLoginValue(text);
-  const inputHandlerEmail = (text) => setEmailValue(text);
-  const inputHandlerPassword = (text) => setPasswordValue(text);
-  console.log(Platform.OS);
+const initialState = {
+  login: "",
+  email: "",
+  password: "",
+};
+
+export default function App() {
+  const [state, setState] = useState("");
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  //   const [loginValue, setLoginValue] = useState("");
+  //   const [emailValue, setEmailValue] = useState("");
+  //   const [passwordValue, setPasswordValue] = useState("");
+  // const [platform, setPlatform] = useState("");
+
+  // const inputHandlerLogin = (text) => setLoginValue(text);
+  // const inputHandlerEmail = (text) => setEmailValue(text);
+  // const inputHandlerPassword = (text) => setPasswordValue(text);
+  // console.log(Platform.OS);
+  // console.log(isShowKeyboard);
+
+  // зробити ще одну ф-ю для сабміту, щоб не скидало форму при TouchableWithoutFeedback
+  const keyboardHide = () => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+    // setState(initialState);
+    console.log(state);
+  };
 
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <ImageBackground
-        source={require("./assets/photo-bg.jpg")}
-        style={styles.imgBG}
-      >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={styles.KAVWrapper}
+    <TouchableWithoutFeedback onPress={keyboardHide}>
+      <View style={styles.container}>
+        <StatusBar style="auto" />
+        <ImageBackground
+          source={require("./assets/photo-bg.jpg")}
+          style={styles.imgBG}
         >
-          <View style={styles.formWrapper}>
-            <View style={styles.titleWrapper}>
-              <Text style={styles.title}>Регистрация</Text>
-            </View>
-            <View style={styles.inpupWrapperLoginEmail}>
-              <TextInput
-                style={styles.inputLoginEmail}
-                placeholder="Логин"
-                placeholderTextColor="#BDBDBD"
-                value={loginValue}
-                onChangeText={inputHandlerLogin}
-              />
-            </View>
-            <View style={styles.inpupWrapperLoginEmail}>
-              <TextInput
-                style={styles.inputLoginEmail}
-                placeholder="Адрес электронной почты"
-                placeholderTextColor="#BDBDBD"
-                value={emailValue}
-                onChangeText={inputHandlerEmail}
-              />
-            </View>
-            <View style={styles.inpupWrapperPassword}>
-              <TextInput
-                style={styles.inputPassword}
-                placeholder="Пароль"
-                placeholderTextColor="#BDBDBD"
-                value={passwordValue}
-                onChangeText={inputHandlerPassword}
-                secureTextEntry={true}
-              />
-            </View>
-            <TouchableOpacity
-              style={styles.btn}
-              activeOpacity={0.7}
-              // onPress={onPress}
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.KAVWrapper}
+          >
+            {/* <RegistrationScreen></RegistrationScreen> */}
+
+            <View
+              style={{
+                ...styles.formWrapper,
+                marginBottom: isShowKeyboard ? -175 : 0,
+              }}
             >
-              <Text style={styles.btnName}>Зарегистрироваться</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.link}
-              activeOpacity={0.7}
-              // onPress={onPress}
-            >
-              <Text style={styles.linkName}>Уже есть аккаунт? Войти</Text>
-            </TouchableOpacity>
-          </View>
-        </KeyboardAvoidingView>
-      </ImageBackground>
-    </View>
+              <View style={styles.titleWrapper}>
+                <Text style={styles.title}>Регистрация</Text>
+              </View>
+              <View style={styles.inpupWrapperLoginEmail}>
+                <TextInput
+                  style={styles.inputLoginEmail}
+                  placeholder="Логин"
+                  placeholderTextColor="#BDBDBD"
+                  value={state.login}
+                  onChangeText={(value) =>
+                    setState((prevState) => ({ ...prevState, login: value }))
+                  }
+                  onFocus={() => {
+                    setIsShowKeyboard(true);
+                  }}
+                />
+              </View>
+              <View style={styles.inpupWrapperLoginEmail}>
+                <TextInput
+                  style={styles.inputLoginEmail}
+                  placeholder="Адрес электронной почты"
+                  placeholderTextColor="#BDBDBD"
+                  value={state.email}
+                  onChangeText={(value) =>
+                    setState((prevState) => ({ ...prevState, email: value }))
+                  }
+                  onFocus={() => {
+                    setIsShowKeyboard(true);
+                  }}
+                />
+              </View>
+              <View style={styles.inpupWrapperPassword}>
+                <TextInput
+                  style={styles.inputPassword}
+                  placeholder="Пароль"
+                  placeholderTextColor="#BDBDBD"
+                  value={state.password}
+                  onChangeText={(value) =>
+                    setState((prevState) => ({ ...prevState, password: value }))
+                  }
+                  secureTextEntry={true}
+                  onFocus={() => {
+                    setIsShowKeyboard(true);
+                  }}
+                />
+              </View>
+              <TouchableOpacity
+                style={styles.btn}
+                activeOpacity={0.7}
+                onPress={() => keyboardHide()}
+              >
+                <Text style={styles.btnName}>Зарегистрироваться</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.link}
+                activeOpacity={0.7}
+                onPress={() => keyboardHide()}
+              >
+                <Text style={styles.linkName}>Уже есть аккаунт? Войти</Text>
+              </TouchableOpacity>
+            </View>
+          </KeyboardAvoidingView>
+        </ImageBackground>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
