@@ -20,6 +20,7 @@ export default function App() {
   const inputHandlerEmail = (text) => setEmailValue(text);
   const inputHandlerPassword = (text) => setPasswordValue(text);
   console.log(Platform.OS);
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -66,6 +67,13 @@ export default function App() {
           >
             <Text style={styles.btnName}>Зарегистрироваться</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.link}
+            activeOpacity={0.7}
+            // onPress={onPress}
+          >
+            <Text style={styles.linkName}>Уже есть аккаунт? Войти</Text>
+          </TouchableOpacity>
         </View>
       </ImageBackground>
     </View>
@@ -88,10 +96,10 @@ const styles = StyleSheet.create({
   },
 
   formWrapper: {
-    height: 550,
+    // height: 550,
     paddingHorizontal: 16,
     paddingTop: 92,
-    paddingBottom: 45,
+    paddingBottom: 78,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     backgroundColor: "#fff",
@@ -152,4 +160,33 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     textAlign: "center",
   },
+
+  link: {
+    marginTop: 16,
+  },
+
+  linkName: {
+    fontSize: 16,
+    color: "#1B4371",
+    textAlign: "center",
+  },
+
+  // // варіанти по заданню різних платформ
+  // test: {
+  //   backgroundColor: Platform.OS === "ios" ? "red" : "green", // варіант  через тернарник
+
+  //   // Варіант через select який повертає обєкт
+  //   ...Platform.select({
+  //     ios: {
+  //       backgroundColor: "red",
+  //     },
+  //     android: {
+  //       backgroundColor: "green",
+  //     },
+  //     default: {
+  //       // other platforms, web for example
+  //       backgroundColor: "blue",
+  //     },
+  //   }),
+  // },
 });
