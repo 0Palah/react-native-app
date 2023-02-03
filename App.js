@@ -8,6 +8,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Platform,
+  KeyboardAvoidingView,
 } from "react-native";
 
 export default function App() {
@@ -28,53 +29,58 @@ export default function App() {
         source={require("./assets/photo-bg.jpg")}
         style={styles.imgBG}
       >
-        <View style={styles.formWrapper}>
-          <View style={styles.titleWrapper}>
-            <Text style={styles.title}>Регистрация</Text>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.KAVWrapper}
+        >
+          <View style={styles.formWrapper}>
+            <View style={styles.titleWrapper}>
+              <Text style={styles.title}>Регистрация</Text>
+            </View>
+            <View style={styles.inpupWrapperLoginEmail}>
+              <TextInput
+                style={styles.inputLoginEmail}
+                placeholder="Логин"
+                placeholderTextColor="#BDBDBD"
+                value={loginValue}
+                onChangeText={inputHandlerLogin}
+              />
+            </View>
+            <View style={styles.inpupWrapperLoginEmail}>
+              <TextInput
+                style={styles.inputLoginEmail}
+                placeholder="Адрес электронной почты"
+                placeholderTextColor="#BDBDBD"
+                value={emailValue}
+                onChangeText={inputHandlerEmail}
+              />
+            </View>
+            <View style={styles.inpupWrapperPassword}>
+              <TextInput
+                style={styles.inputPassword}
+                placeholder="Пароль"
+                placeholderTextColor="#BDBDBD"
+                value={passwordValue}
+                onChangeText={inputHandlerPassword}
+                secureTextEntry={true}
+              />
+            </View>
+            <TouchableOpacity
+              style={styles.btn}
+              activeOpacity={0.7}
+              // onPress={onPress}
+            >
+              <Text style={styles.btnName}>Зарегистрироваться</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.link}
+              activeOpacity={0.7}
+              // onPress={onPress}
+            >
+              <Text style={styles.linkName}>Уже есть аккаунт? Войти</Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.inpupWrapperLoginEmail}>
-            <TextInput
-              style={styles.inputLoginEmail}
-              placeholder="Логин"
-              placeholderTextColor="#BDBDBD"
-              value={loginValue}
-              onChangeText={inputHandlerLogin}
-            />
-          </View>
-          <View style={styles.inpupWrapperLoginEmail}>
-            <TextInput
-              style={styles.inputLoginEmail}
-              placeholder="Адрес электронной почты"
-              placeholderTextColor="#BDBDBD"
-              value={emailValue}
-              onChangeText={inputHandlerEmail}
-            />
-          </View>
-          <View style={styles.inpupWrapperPassword}>
-            <TextInput
-              style={styles.inputPassword}
-              placeholder="Пароль"
-              placeholderTextColor="#BDBDBD"
-              value={passwordValue}
-              onChangeText={inputHandlerPassword}
-              secureTextEntry={true}
-            />
-          </View>
-          <TouchableOpacity
-            style={styles.btn}
-            activeOpacity={0.7}
-            // onPress={onPress}
-          >
-            <Text style={styles.btnName}>Зарегистрироваться</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.link}
-            activeOpacity={0.7}
-            // onPress={onPress}
-          >
-            <Text style={styles.linkName}>Уже есть аккаунт? Войти</Text>
-          </TouchableOpacity>
-        </View>
+        </KeyboardAvoidingView>
       </ImageBackground>
     </View>
   );
@@ -93,6 +99,11 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     justifyContent: "flex-end",
     // alignItems: "center",
+  },
+
+  KAVWrapper: {
+    // flex: 1,
+    justifyContent: "flex-end",
   },
 
   formWrapper: {
