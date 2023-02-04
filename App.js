@@ -28,6 +28,7 @@ export default function App() {
   const [isLoginOnFocus, setIsLoginOnFocus] = useState(false);
   const [isEmailOnFocus, setIsEmailOnFocus] = useState(false);
   const [isPasswordOnFocus, setIsPasswordOnFocus] = useState(false);
+  // const [isPasswordHidden, setIsPasswordHidden] = useState(true);
 
   //   const [loginValue, setLoginValue] = useState("");
   //   const [emailValue, setEmailValue] = useState("");
@@ -46,6 +47,11 @@ export default function App() {
     Keyboard.dismiss();
     // setState(initialState);
     console.log(state);
+  };
+
+  //ned toggle !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  const togglePasswordHide = () => {
+    setIsPasswordHidden(false);
   };
 
   return (
@@ -142,6 +148,13 @@ export default function App() {
                     setIsPasswordOnFocus(false);
                   }}
                 />
+                <TouchableOpacity
+                  style={styles.btnToglePassword}
+                  activeOpacity={0.7}
+                  // onPress={() => keyboardHide()}
+                >
+                  <Text style={styles.toglePasswordText}>Показать</Text>
+                </TouchableOpacity>
               </View>
               <TouchableOpacity
                 style={styles.btn}
@@ -273,6 +286,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#ffffff",
     textAlign: "center",
+  },
+
+  btnToglePassword: {
+    position: "absolute",
+    bottom: 15,
+    right: 16,
+  },
+
+  toglePasswordText: {
+    fontSize: 16,
+    color: "#1B4371",
   },
 
   link: {
