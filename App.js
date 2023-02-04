@@ -25,6 +25,10 @@ const initialState = {
 export default function App() {
   const [state, setState] = useState("");
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  const [isLoginOnFocus, setIsLoginOnFocus] = useState(false);
+  const [isEmailOnFocus, setIsEmailOnFocus] = useState(false);
+  const [isPasswordOnFocus, setIsPasswordOnFocus] = useState(false);
+
   //   const [loginValue, setLoginValue] = useState("");
   //   const [emailValue, setEmailValue] = useState("");
   //   const [passwordValue, setPasswordValue] = useState("");
@@ -77,7 +81,10 @@ export default function App() {
               </View>
               <View style={styles.inpupWrapperLoginEmail}>
                 <TextInput
-                  style={styles.inputLoginEmail}
+                  style={{
+                    ...styles.inputLoginEmail,
+                    borderColor: isLoginOnFocus ? "#FF6C00" : "#E8E8E8",
+                  }}
                   placeholder="Логин"
                   placeholderTextColor="#BDBDBD"
                   value={state.login}
@@ -86,12 +93,19 @@ export default function App() {
                   }
                   onFocus={() => {
                     setIsShowKeyboard(true);
+                    setIsLoginOnFocus(true);
+                  }}
+                  onBlur={() => {
+                    setIsLoginOnFocus(false);
                   }}
                 />
               </View>
               <View style={styles.inpupWrapperLoginEmail}>
                 <TextInput
-                  style={styles.inputLoginEmail}
+                  style={{
+                    ...styles.inputLoginEmail,
+                    borderColor: isEmailOnFocus ? "#FF6C00" : "#E8E8E8",
+                  }}
                   placeholder="Адрес электронной почты"
                   placeholderTextColor="#BDBDBD"
                   value={state.email}
@@ -100,12 +114,19 @@ export default function App() {
                   }
                   onFocus={() => {
                     setIsShowKeyboard(true);
+                    setIsEmailOnFocus(true);
+                  }}
+                  onBlur={() => {
+                    setIsEmailOnFocus(false);
                   }}
                 />
               </View>
               <View style={styles.inpupWrapperPassword}>
                 <TextInput
-                  style={styles.inputPassword}
+                  style={{
+                    ...styles.inputPassword,
+                    borderColor: isPasswordOnFocus ? "#FF6C00" : "#E8E8E8",
+                  }}
                   placeholder="Пароль"
                   placeholderTextColor="#BDBDBD"
                   value={state.password}
@@ -115,6 +136,10 @@ export default function App() {
                   secureTextEntry={true}
                   onFocus={() => {
                     setIsShowKeyboard(true);
+                    setIsPasswordOnFocus(true);
+                  }}
+                  onBlur={() => {
+                    setIsPasswordOnFocus(false);
                   }}
                 />
               </View>
@@ -214,9 +239,10 @@ const styles = StyleSheet.create({
 
   inputLoginEmail: {
     borderWidth: 1,
-    borderColor: "#E8E8E8",
+    // borderColor: "#E8E8E8",
     borderRadius: 8,
     backgroundColor: "#F6F6F6",
+    color: "#212121",
     height: 50,
     paddingHorizontal: 16,
     // placeholderTextColor: "#BDBDBD",
@@ -228,9 +254,10 @@ const styles = StyleSheet.create({
 
   inputPassword: {
     borderWidth: 1,
-    borderColor: "#E8E8E8",
+    // borderColor: "#E8E8E8",
     borderRadius: 8,
     backgroundColor: "#F6F6F6",
+    color: "#212121",
     height: 50,
     paddingHorizontal: 16,
   },
