@@ -6,6 +6,7 @@ import {
   View,
   TextInput,
   ImageBackground,
+  Image,
   TouchableOpacity,
   TouchableWithoutFeedback,
   Platform,
@@ -63,6 +64,14 @@ export default function App() {
                 marginBottom: isShowKeyboard ? -175 : 0,
               }}
             >
+              <View style={styles.avatar}>
+                <Image />
+                <TouchableOpacity
+                  style={styles.addAvatarBtn}
+                  activeOpacity={0.7}
+                  // onPress={() => keyboardHide()}
+                ></TouchableOpacity>
+              </View>
               <View style={styles.titleWrapper}>
                 <Text style={styles.title}>Регистрация</Text>
               </View>
@@ -158,6 +167,28 @@ const styles = StyleSheet.create({
     paddingBottom: 78,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
+    backgroundColor: "#fff",
+  },
+
+  avatar: {
+    height: 120,
+    width: 120,
+    position: "absolute",
+    backgroundColor: "#F6F6F6",
+    borderRadius: 16,
+    alignSelf: "center",
+    top: -60,
+  },
+
+  addAvatarBtn: {
+    position: "absolute",
+    right: -12,
+    bottom: 14,
+    height: 25,
+    width: 25,
+    borderWidth: 1,
+    borderRadius: 13,
+    borderColor: "#FF6C00",
     backgroundColor: "#fff",
   },
 
