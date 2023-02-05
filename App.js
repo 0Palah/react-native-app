@@ -236,6 +236,8 @@ const styles = StyleSheet.create({
     color: `#212121`,
     fontSize: 30,
     letterSpacing: 0.01,
+    fontWeight: "500",
+
     // fontWeight: 500,
     // lineHeight: 35,
     // font-family: 'Roboto';
