@@ -29,14 +29,8 @@ export default function App() {
   const [isInputOnFocus, setIsInputOnFocus] = useState(false);
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
 
-  //   const [loginValue, setLoginValue] = useState("");
-  //   const [emailValue, setEmailValue] = useState("");
-  //   const [passwordValue, setPasswordValue] = useState("");
   // const [platform, setPlatform] = useState("");
 
-  // const inputHandlerLogin = (text) => setLoginValue(text);
-  // const inputHandlerEmail = (text) => setEmailValue(text);
-  // const inputHandlerPassword = (text) => setPasswordValue(text);
   // console.log(Platform.OS);
   // console.log(isShowKeyboard);
 
@@ -45,13 +39,10 @@ export default function App() {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
     // setState(initialState);
-    console.log(state);
   };
 
-  //ned toggle !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   const togglePasswordHide = () => {
     setIsPasswordHidden(isPasswordHidden === true ? false : true);
-    console.log(isPasswordHidden);
   };
 
   return (
@@ -313,23 +304,4 @@ const styles = StyleSheet.create({
     color: "#1B4371",
     textAlign: "center",
   },
-
-  // // варіанти по заданню різних платформ
-  // test: {
-  //   backgroundColor: Platform.OS === "ios" ? "red" : "green", // варіант  через тернарник
-
-  //   // Варіант через select який повертає обєкт
-  //   ...Platform.select({
-  //     ios: {
-  //       backgroundColor: "red",
-  //     },
-  //     android: {
-  //       backgroundColor: "green",
-  //     },
-  //     default: {
-  //       // other platforms, web for example
-  //       backgroundColor: "blue",
-  //     },
-  //   }),
-  // },
 });
