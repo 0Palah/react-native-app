@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,7 +14,17 @@ import {
   Keyboard,
 } from "react-native";
 
-import RegistrationScreen from "./Screens/RegistrationScreen";
+import * as Font from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+
+// const loadFonts = async () => {
+//   await Font.loadAsync({
+//     "Roboto-Regulat": require("./assets/fonts/Roboto/Roboto-Regular.ttf"),
+//     "Roboto-Medium": require("./assets/fonts/Roboto/Roboto-Medium.ttf"),
+//   });
+// };
+
+// import RegistrationScreen from "./Screens/RegistrationScreen";
 
 const initialState = {
   login: "",
@@ -23,16 +33,31 @@ const initialState = {
 };
 
 export default function App() {
-  const [state, setState] = useState("");
+  const [state, setState] = useState(initialState);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  const [appIsReady, setAppIsReady] = useState(false);
 
   const [isInputOnFocus, setIsInputOnFocus] = useState(false);
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
 
   // const [platform, setPlatform] = useState("");
 
-  // console.log(Platform.OS);
-  // console.log(isShowKeyboard);
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await Font.loadAsync({
+          "Roboto-Regulat": require("./assets/fonts/Roboto/Roboto-Regular.ttf"),
+          "Roboto-Medium": require("./assets/fonts/Roboto/Roboto-Medium.ttf"),
+        });
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        // Tell the application to render
+        setAppIsReady(true);
+      }
+    }
+    prepare();
+  }, []);
 
   // зробити ще одну ф-ю для сабміту, щоб не скидало форму при TouchableWithoutFeedback
   const keyboardHide = () => {
@@ -45,9 +70,19 @@ export default function App() {
     setIsPasswordHidden(isPasswordHidden === true ? false : true);
   };
 
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
+
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
-      <View style={styles.container}>
+      <View style={styles.container} onLayout={onLayoutRootView}>
         <StatusBar style="auto" />
         <ImageBackground
           source={require("./assets/photo-bg.jpg")}
@@ -237,10 +272,10 @@ const styles = StyleSheet.create({
     fontSize: 30,
     letterSpacing: 0.01,
     fontWeight: "500",
+    fontFamily: "Roboto-Medium",
 
     // fontWeight: 500,
     // lineHeight: 35,
-    // font-family: 'Roboto';
     // font-style: normal;
   },
 
@@ -256,6 +291,7 @@ const styles = StyleSheet.create({
     color: "#212121",
     height: 50,
     paddingHorizontal: 16,
+    fontFamily: "Roboto-Regular",
     // placeholderTextColor: "#BDBDBD",
   },
 
@@ -271,6 +307,7 @@ const styles = StyleSheet.create({
     color: "#212121",
     height: 50,
     paddingHorizontal: 16,
+    fontFamily: "Roboto-Regular",
   },
 
   btn: {
@@ -284,6 +321,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#ffffff",
     textAlign: "center",
+    fontFamily: "Roboto-Regular",
   },
 
   btnToglePassword: {
@@ -295,6 +333,7 @@ const styles = StyleSheet.create({
   toglePasswordText: {
     fontSize: 16,
     color: "#1B4371",
+    fontFamily: "Roboto-Regular",
   },
 
   link: {
@@ -305,5 +344,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#1B4371",
     textAlign: "center",
+    fontFamily: "Roboto-Regular",
   },
 });
