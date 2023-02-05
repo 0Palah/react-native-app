@@ -46,7 +46,7 @@ export default function App() {
     async function prepare() {
       try {
         await Font.loadAsync({
-          "Roboto-Regulat": require("./assets/fonts/Roboto/Roboto-Regular.ttf"),
+          "Roboto-Regular": require("./assets/fonts/Roboto/Roboto-Regular.ttf"),
           "Roboto-Medium": require("./assets/fonts/Roboto/Roboto-Medium.ttf"),
         });
       } catch (e) {
