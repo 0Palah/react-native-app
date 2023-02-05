@@ -25,10 +25,9 @@ const initialState = {
 export default function App() {
   const [state, setState] = useState("");
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-  const [isLoginOnFocus, setIsLoginOnFocus] = useState(false);
-  const [isEmailOnFocus, setIsEmailOnFocus] = useState(false);
-  const [isPasswordOnFocus, setIsPasswordOnFocus] = useState(false);
-  // const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+
+  const [isInputOnFocus, setIsInputOnFocus] = useState(false);
+  const [isPasswordHidden, setIsPasswordHidden] = useState(true);
 
   //   const [loginValue, setLoginValue] = useState("");
   //   const [emailValue, setEmailValue] = useState("");
@@ -51,7 +50,8 @@ export default function App() {
 
   //ned toggle !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   const togglePasswordHide = () => {
-    setIsPasswordHidden(false);
+    setIsPasswordHidden(isPasswordHidden === true ? false : true);
+    console.log(isPasswordHidden);
   };
 
   return (
@@ -89,7 +89,8 @@ export default function App() {
                 <TextInput
                   style={{
                     ...styles.inputLoginEmail,
-                    borderColor: isLoginOnFocus ? "#FF6C00" : "#E8E8E8",
+                    borderColor:
+                      isInputOnFocus === "login" ? "#FF6C00" : "#E8E8E8",
                   }}
                   placeholder="Логин"
                   placeholderTextColor="#BDBDBD"
@@ -99,10 +100,10 @@ export default function App() {
                   }
                   onFocus={() => {
                     setIsShowKeyboard(true);
-                    setIsLoginOnFocus(true);
+                    setIsInputOnFocus("login");
                   }}
                   onBlur={() => {
-                    setIsLoginOnFocus(false);
+                    setIsInputOnFocus(false);
                   }}
                 />
               </View>
@@ -110,7 +111,8 @@ export default function App() {
                 <TextInput
                   style={{
                     ...styles.inputLoginEmail,
-                    borderColor: isEmailOnFocus ? "#FF6C00" : "#E8E8E8",
+                    borderColor:
+                      isInputOnFocus === "email" ? "#FF6C00" : "#E8E8E8",
                   }}
                   placeholder="Адрес электронной почты"
                   placeholderTextColor="#BDBDBD"
@@ -120,10 +122,10 @@ export default function App() {
                   }
                   onFocus={() => {
                     setIsShowKeyboard(true);
-                    setIsEmailOnFocus(true);
+                    setIsInputOnFocus("email");
                   }}
                   onBlur={() => {
-                    setIsEmailOnFocus(false);
+                    setIsInputOnFocus(false);
                   }}
                 />
               </View>
@@ -131,7 +133,8 @@ export default function App() {
                 <TextInput
                   style={{
                     ...styles.inputPassword,
-                    borderColor: isPasswordOnFocus ? "#FF6C00" : "#E8E8E8",
+                    borderColor:
+                      isInputOnFocus === "password" ? "#FF6C00" : "#E8E8E8",
                   }}
                   placeholder="Пароль"
                   placeholderTextColor="#BDBDBD"
@@ -139,21 +142,23 @@ export default function App() {
                   onChangeText={(value) =>
                     setState((prevState) => ({ ...prevState, password: value }))
                   }
-                  secureTextEntry={true}
+                  secureTextEntry={isPasswordHidden ? true : false}
                   onFocus={() => {
                     setIsShowKeyboard(true);
-                    setIsPasswordOnFocus(true);
+                    setIsInputOnFocus("password");
                   }}
                   onBlur={() => {
-                    setIsPasswordOnFocus(false);
+                    setIsInputOnFocus(false);
                   }}
                 />
                 <TouchableOpacity
                   style={styles.btnToglePassword}
                   activeOpacity={0.7}
-                  // onPress={() => keyboardHide()}
+                  onPress={() => togglePasswordHide()}
                 >
-                  <Text style={styles.toglePasswordText}>Показать</Text>
+                  <Text style={styles.toglePasswordText}>
+                    {isPasswordHidden ? "Показать" : "Скрыть"}
+                  </Text>
                 </TouchableOpacity>
               </View>
               <TouchableOpacity
