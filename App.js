@@ -12,19 +12,13 @@ import {
   Platform,
   KeyboardAvoidingView,
   Keyboard,
+  Pressable,
 } from "react-native";
 
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-
-// const loadFonts = async () => {
-//   await Font.loadAsync({
-//     "Roboto-Regulat": require("./assets/fonts/Roboto/Roboto-Regular.ttf"),
-//     "Roboto-Medium": require("./assets/fonts/Roboto/Roboto-Medium.ttf"),
-//   });
-// };
-
-// import RegistrationScreen from "./Screens/RegistrationScreen";
+import Svg, { Path } from "react-native-svg";
+import SvgCross from "./assets/cross.svg";
 
 const initialState = {
   login: "",
@@ -99,13 +93,41 @@ export default function App() {
                 marginBottom: isShowKeyboard ? -175 : 0,
               }}
             >
-              <View style={styles.avatar}>
-                <Image />
-                <TouchableOpacity
+              <View style={styles.avatarWrapper}>
+                <View style={styles.fotoWrapper}>
+                  <Image
+                    source={require("./assets/avatarExample.jpg")}
+                    // objectFit="contain"
+                  />
+                </View>
+
+                <Pressable
+                  onPress={() => {
+                    console.log(123);
+                  }}
                   style={styles.addAvatarBtn}
-                  activeOpacity={0.7}
+                  // activeOpacity={0.7}
                   // onPress={() => keyboardHide()}
-                ></TouchableOpacity>
+                >
+                  <Svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 32 32"
+                    // style={{ transform: [{ rotate: "45deg" }] }}
+                    color="#ff6c00"
+                  >
+                    <Path
+                      fill="currentColor"
+                      d="M17.231 0h-2.462v14.769h-14.769v2.462h14.769v14.769h2.462v-14.769h14.769v-2.462h-14.769v-14.769z"
+                    />
+                  </Svg>
+                  {/* <SvgCross
+                      width="13"
+                      height="13"
+                      // fill={"red"}
+                      // style={{ transform: [{ rotate: "45deg" }] }}
+                    /> */}
+                </Pressable>
               </View>
               <View style={styles.titleWrapper}>
                 <Text style={styles.title}>Регистрация</Text>
@@ -238,7 +260,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
 
-  avatar: {
+  avatarWrapper: {
     height: 120,
     width: 120,
     position: "absolute",
@@ -248,8 +270,15 @@ const styles = StyleSheet.create({
     top: -60,
   },
 
+  fotoWrapper: {
+    overflow: "hidden",
+    borderRadius: 16,
+  },
+
   addAvatarBtn: {
     position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
     right: -12,
     bottom: 14,
     height: 25,
