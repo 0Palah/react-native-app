@@ -113,8 +113,10 @@ export default function App() {
                     width="13"
                     height="13"
                     viewBox="0 0 32 32"
-                    // style={{ transform: [{ rotate: "45deg" }] }}
-                    color="#ff6c00"
+                    style={{
+                      transform: [{ rotate: "45deg" }],
+                      color: "#ff6c00",
+                    }}
                   >
                     <Path
                       fill="currentColor"
