@@ -18,9 +18,39 @@ import ProfileScreen from "./Screens/mainScreen/ProfileScreen";
 const AuthStack = createNativeStackNavigator();
 const MainTab = createBottomTabNavigator();
 
+const useRoute = (isAuth) => {
+  if (!isAuth) {
+    return (
+      <AuthStack.Navigator>
+        <AuthStack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="Registration"
+          component={RegistrationScreen}
+        />
+        <AuthStack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="Login"
+          component={LoginScreen}
+        />
+      </AuthStack.Navigator>
+    );
+  }
+  return (
+    <MainTab.Navigator>
+      <MainTab.Screen name="Posts" component={PostsScreen} />
+      <MainTab.Screen name="Create" component={CreateScreen} />
+      <MainTab.Screen name="Profile" component={ProfileScreen} />
+    </MainTab.Navigator>
+  );
+};
+
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
-
+  const routing = useRoute(false);
   useEffect(() => {
     async function prepare() {
       try {
@@ -48,17 +78,9 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <MainTab.Navigator>
-        <MainTab.Screen name="Posts" component={PostsScreen} />
-        <MainTab.Screen name="Create" component={CreateScreen} />
-        <MainTab.Screen name="Profile" component={ProfileScreen} />
-      </MainTab.Navigator>
-    </NavigationContainer>
-    // <View style={styles.container} onLayout={onLayoutRootView}>
-    //   {/* <RegistrationScreen /> */}
-    //   <LoginScreen />
-    // </View>
+    <View style={styles.container} onLayout={onLayoutRootView}>
+      <NavigationContainer>{routing}</NavigationContainer>
+    </View>
   );
 }
 
