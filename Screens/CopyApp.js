@@ -1,5 +1,5 @@
 // import { StatusBar } from "expo-status-bar";
-// import React, { useState } from "react";
+// import React, { useState, useEffect, useCallback } from "react";
 // import {
 //   StyleSheet,
 //   Text,
@@ -15,8 +15,10 @@
 //   Pressable,
 // } from "react-native";
 
+// import * as Font from "expo-font";
+// import * as SplashScreen from "expo-splash-screen";
 // import Svg, { Path } from "react-native-svg";
-// import SvgCross from "../assets/cross.svg";
+// import SvgCross from "./assets/cross.svg";
 
 // const initialState = {
 //   login: "",
@@ -24,31 +26,31 @@
 //   password: "",
 // };
 
-// export default function RegistrationScreen() {
+// export default function App() {
 //   const [state, setState] = useState(initialState);
 //   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-//   //   const [appIsReady, setAppIsReady] = useState(false);
+//   const [appIsReady, setAppIsReady] = useState(false);
 
 //   const [isInputOnFocus, setIsInputOnFocus] = useState(false);
 //   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
 
 //   // const [platform, setPlatform] = useState("");
 
-//   //   useEffect(() => {
-//   //     async function prepare() {
-//   //       try {
-//   //         await Font.loadAsync({
-//   //           "Roboto-Regular": require("./assets/fonts/Roboto/Roboto-Regular.ttf"),
-//   //           "Roboto-Medium": require("./assets/fonts/Roboto/Roboto-Medium.ttf"),
-//   //         });
-//   //       } catch (e) {
-//   //         console.warn(e);
-//   //       } finally {
-//   //         setAppIsReady(true);
-//   //       }
-//   //     }
-//   //     prepare();
-//   //   }, []);
+//   useEffect(() => {
+//     async function prepare() {
+//       try {
+//         await Font.loadAsync({
+//           "Roboto-Regular": require("./assets/fonts/Roboto/Roboto-Regular.ttf"),
+//           "Roboto-Medium": require("./assets/fonts/Roboto/Roboto-Medium.ttf"),
+//         });
+//       } catch (e) {
+//         console.warn(e);
+//       } finally {
+//         setAppIsReady(true);
+//       }
+//     }
+//     prepare();
+//   }, []);
 
 //   // зробити ще одну ф-ю для сабміту, щоб не скидало форму при TouchableWithoutFeedback
 //   const keyboardHide = () => {
@@ -61,13 +63,22 @@
 //     setIsPasswordHidden(isPasswordHidden === true ? false : true);
 //   };
 
+//   const onLayoutRootView = useCallback(async () => {
+//     if (appIsReady) {
+//       await SplashScreen.hideAsync();
+//     }
+//   }, [appIsReady]);
+
+//   if (!appIsReady) {
+//     return null;
+//   }
+
 //   return (
 //     <TouchableWithoutFeedback onPress={keyboardHide}>
-//       {/* <View style={styles.container} onLayout={onLayoutRootView}> */}
-//       <View style={styles.container}>
+//       <View style={styles.container} onLayout={onLayoutRootView}>
 //         <StatusBar style="auto" />
 //         <ImageBackground
-//           source={require("../assets/photo-bg.jpg")}
+//           source={require("./assets/photo-bg.jpg")}
 //           style={styles.imgBG}
 //         >
 //           <KeyboardAvoidingView
@@ -85,7 +96,7 @@
 //               <View style={styles.avatarWrapper}>
 //                 <View style={styles.fotoWrapper}>
 //                   <Image
-//                     source={require("../assets/avatarExample.jpg")}
+//                     source={require("./assets/avatarExample.jpg")}
 //                     // objectFit="contain"
 //                   />
 //                 </View>
