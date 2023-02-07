@@ -19,12 +19,11 @@ import Svg, { Path } from "react-native-svg";
 import SvgCross from "../assets/cross.svg";
 
 const initialState = {
-  login: "",
   email: "",
   password: "",
 };
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   const [state, setState] = useState(initialState);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
@@ -138,7 +137,8 @@ export default function LoginScreen() {
               <TouchableOpacity
                 style={styles.link}
                 activeOpacity={0.7}
-                onPress={() => keyboardHide()}
+                // onPress={() => keyboardHide()}
+                onPress={() => navigation.navigate("Registration")}
               >
                 <Text style={styles.linkName}>
                   Нет аккаунта? Зарегистрироваться

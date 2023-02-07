@@ -1,11 +1,18 @@
+import "react-native-gesture-handler";
 import React, { useState, useEffect, useCallback } from "react";
-import { StyleSheet, View } from "react-native";
 
+import { StyleSheet, View } from "react-native";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import RegistrationScreen from "./Screens/RegistrationScreen";
 import LoginScreen from "./Screens/LoginScreen";
+
+const AuthStack = createNativeStackNavigator();
+const MainTab = createBottomTabNavigator();
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -37,10 +44,28 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
-      {/* <RegistrationScreen /> */}
-      <LoginScreen />
-    </View>
+    <NavigationContainer>
+      <AuthStack.Navigator>
+        <AuthStack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="Registration"
+          component={RegistrationScreen}
+        />
+        <AuthStack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="Login"
+          component={LoginScreen}
+        />
+      </AuthStack.Navigator>
+    </NavigationContainer>
+    // <View style={styles.container} onLayout={onLayoutRootView}>
+    //   {/* <RegistrationScreen /> */}
+    //   <LoginScreen />
+    // </View>
   );
 }
 
