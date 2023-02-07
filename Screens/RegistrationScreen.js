@@ -25,7 +25,7 @@ const initialState = {
 };
 
 export default function RegistrationScreen({ navigation }) {
-  console.log(navigation);
+  // console.log(navigation);
   const [state, setState] = useState(initialState);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
