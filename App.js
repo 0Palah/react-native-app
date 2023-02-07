@@ -5,6 +5,7 @@ import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
 import RegistrationScreen from "./Screens/RegistrationScreen";
+import LoginScreen from "./Screens/LoginScreen";
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -37,7 +38,8 @@ export default function App() {
 
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
-      <RegistrationScreen />
+      {/* <RegistrationScreen /> */}
+      <LoginScreen />
     </View>
   );
 }
