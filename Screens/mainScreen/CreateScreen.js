@@ -1,19 +1,8 @@
-import { StatusBar } from "expo-status-bar";
+// import { StatusBar } from "expo-status-bar";
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  ImageBackground,
-  Image,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Platform,
-  KeyboardAvoidingView,
-  Keyboard,
-  Pressable,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+
+// const CreateScreen = () => {
 
 export default function CreateScreen() {
   return (
@@ -36,3 +25,5 @@ const styles = StyleSheet.create({
     color: "#212121",
   },
 });
+
+// export default CreateScreen;

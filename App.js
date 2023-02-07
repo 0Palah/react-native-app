@@ -4,12 +4,16 @@ import React, { useState, useEffect, useCallback } from "react";
 import { StyleSheet, View } from "react-native";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import RegistrationScreen from "./Screens/RegistrationScreen";
 import LoginScreen from "./Screens/LoginScreen";
+import PostsScreen from "./Screens/mainScreen/PostsScreen";
+import CreateScreen from "./Screens/mainScreen/CreateScreen";
+import ProfileScreen from "./Screens/mainScreen/ProfileScreen";
 
 const AuthStack = createNativeStackNavigator();
 const MainTab = createBottomTabNavigator();
@@ -45,22 +49,11 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <AuthStack.Navigator>
-        <AuthStack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="Registration"
-          component={RegistrationScreen}
-        />
-        <AuthStack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="Login"
-          component={LoginScreen}
-        />
-      </AuthStack.Navigator>
+      <MainTab.Navigator>
+        <MainTab.Screen name="Posts" component={PostsScreen} />
+        <MainTab.Screen name="Create" component={CreateScreen} />
+        <MainTab.Screen name="Profile" component={ProfileScreen} />
+      </MainTab.Navigator>
     </NavigationContainer>
     // <View style={styles.container} onLayout={onLayoutRootView}>
     //   {/* <RegistrationScreen /> */}
@@ -68,6 +61,27 @@ export default function App() {
     // </View>
   );
 }
+
+// -------------------------------Auth----------------
+
+// <AuthStack.Navigator>
+//   <AuthStack.Screen
+//     options={{
+//       headerShown: false,
+//     }}
+//     name="Registration"
+//     component={RegistrationScreen}
+//   />
+//   <AuthStack.Screen
+//     options={{
+//       headerShown: false,
+//     }}
+//     name="Login"
+//     component={LoginScreen}
+//   />
+// </AuthStack.Navigator>;
+
+// -------------------------------Auth----------------
 
 const styles = StyleSheet.create({
   container: {
