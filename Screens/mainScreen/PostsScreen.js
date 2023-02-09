@@ -4,7 +4,8 @@ import { StyleSheet, Text, View } from "react-native";
 // import { Ionicons } from "@expo/vector-icons";
 // const PostsScreen = () => {
 
-export default function PostsScreen() {
+export default function PostsScreen({ route }) {
+  console.log(route.params);
   return (
     <View style={styles.container}>
       <View style={styles.heder}>

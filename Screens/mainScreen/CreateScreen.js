@@ -20,7 +20,11 @@ export default function CreateScreen({ navigation }) {
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
     setPhoto(photo.uri);
+  };
+
+  const sendPhoto = () => {
     console.log("navigation: ", navigation);
+    navigation.navigate("Posts", { photo });
   };
 
   return (
@@ -67,7 +71,7 @@ export default function CreateScreen({ navigation }) {
           <TouchableOpacity
             style={styles.submitBtn}
             activeOpacity={0.7}
-            onPress={() => onSubmitForm()}
+            onPress={() => sendPhoto()}
           >
             <Text style={styles.btnName}>Опубликовать</Text>
           </TouchableOpacity>
