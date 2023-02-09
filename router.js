@@ -47,14 +47,11 @@ const useRoute = (isAuth) => {
             height: 83,
             borderBottomWidth: 1,
             borderColor: "#E8E8E8",
-            // paddingBottom: 11,
-            // backgroundColor: "red",
           },
 
           headerTitleContainerStyle: {
-            // height: 88,
             paddingBottom: 11,
-            marginRight: -16,
+            marginRight: 0,
           },
 
           headerTitleStyle: {
@@ -67,6 +64,8 @@ const useRoute = (isAuth) => {
 
           headerRightContainerStyle: {
             paddingRight: 16,
+            marginTop: "auto",
+            marginBottom: 11,
             // color: "#BDBDBD",
           },
 
@@ -93,6 +92,45 @@ const useRoute = (isAuth) => {
       />
       <MainTab.Screen
         options={{
+          headerStyle: {
+            height: 83,
+            borderBottomWidth: 1,
+            borderColor: "#E8E8E8",
+            // paddingBottom: 11,
+            // backgroundColor: "red",
+          },
+
+          headerTitleContainerStyle: {
+            // height: 88,
+            paddingBottom: 11,
+            marginLeft: 0,
+          },
+
+          headerTitleStyle: {
+            fontWeight: "500",
+            fontSize: 17,
+            letterSpacing: -0.408,
+            color: "#212121",
+            marginTop: "auto",
+          },
+
+          headerLeftContainerStyle: {
+            paddingLeft: 16,
+            marginTop: "auto",
+            marginBottom: 11,
+          },
+
+          headerLeft: (focused, color, size) => (
+            // <Pressable
+            //   onPress={() => {
+            //     console.log(123);
+            //     navigation.navigate("Login");
+            //   }}
+            // >
+            //   <Feather name="log-out" size={24} color="black" />
+            // </Pressable>
+            <AntDesign name="arrowleft" size={24} color="#212121CC" />
+          ),
           tabBarShowLabel: false,
           tabBarIcon: (focused, color, size) => (
             <View style={styles.mainTabBtn}>
