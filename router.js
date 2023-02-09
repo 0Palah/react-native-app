@@ -138,7 +138,12 @@ const useRoute = (isAuth) => {
             // >
             //   <Feather name="log-out" size={24} color="black" />
             // </Pressable>
-            <AntDesign name="arrowleft" size={24} color="#212121CC" />
+            <AntDesign
+              name="arrowleft"
+              size={24}
+              color="#212121CC"
+              onPress={() => goBack()}
+            />
           ),
 
           tabBarShowLabel: false,
