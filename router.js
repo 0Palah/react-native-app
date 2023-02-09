@@ -142,7 +142,7 @@ const useRoute = (isAuth) => {
               name="arrowleft"
               size={24}
               color="#212121CC"
-              onPress={() => goBack()}
+              onPress={() => {}}
             />
           ),
 
