@@ -40,9 +40,13 @@ const useRoute = (isAuth) => {
     );
   }
   return (
+    // <MainTab.Navigator screenOptions={styles.mainTabContainer}>
     <MainTab.Navigator screenOptions={styles.mainTabContainer}>
       <MainTab.Screen
+        name="Posts"
+        component={PostsScreen}
         options={{
+          title: "Публикации",
           headerStyle: {
             height: 83,
             borderBottomWidth: 1,
@@ -87,17 +91,22 @@ const useRoute = (isAuth) => {
             <SimpleLineIcons name="grid" size={24} color="#212121CC" />
           ),
         }}
-        name="Публикации"
-        component={PostsScreen}
       />
       <MainTab.Screen
+        name="Create post"
+        component={CreateScreen}
         options={{
+          title: "Создать публикацию",
           headerStyle: {
             height: 83,
             borderBottomWidth: 1,
             borderColor: "#E8E8E8",
             // paddingBottom: 11,
             // backgroundColor: "red",
+          },
+
+          tabBarStyle: {
+            // display: "none",
           },
 
           headerTitleContainerStyle: {
@@ -131,25 +140,31 @@ const useRoute = (isAuth) => {
             // </Pressable>
             <AntDesign name="arrowleft" size={24} color="#212121CC" />
           ),
+
           tabBarShowLabel: false,
+          // tabBarLabel: (focused, color) => (
+          //   <View style={styles.mainTabBtn}>
+          //     <AntDesign name="plus" size={13} color="#FFFFFF" />
+          //   </View>
+          // ),
+
           tabBarIcon: (focused, color, size) => (
             <View style={styles.mainTabBtn}>
               <AntDesign name="plus" size={13} color="#FFFFFF" />
             </View>
           ),
         }}
-        name="Создать публикацию"
-        component={CreateScreen}
       />
       <MainTab.Screen
+        name="Profile"
+        component={ProfileScreen}
         options={{
+          headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: (focused, color, size) => (
             <Feather name="user" size={24} color="#212121CC" />
           ),
         }}
-        name="Profile"
-        component={ProfileScreen}
       />
     </MainTab.Navigator>
   );
