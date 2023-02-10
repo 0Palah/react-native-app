@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from "react-native";
 // const PostsScreen = () => {
 
 export default function PostsScreen({ route }) {
-  console.log(route.params);
+  console.log("PostsScreen --> route.params: ", route.params);
   return (
     <View style={styles.container}>
       <View style={styles.heder}>

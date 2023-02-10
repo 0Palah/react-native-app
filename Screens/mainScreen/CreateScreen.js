@@ -1,36 +1,78 @@
 // import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   Image,
   TextInput,
+  KeyboardAvoidingView,
+  Keyboard,
 } from "react-native";
 import { Camera, CameraType } from "expo-camera";
+import * as MediaLibrary from "expo-media-library";
 import { MaterialIcons } from "@expo/vector-icons";
 
 // const CreateScreen = () => {
 
+const initialState = {
+  photo: "",
+  title: "",
+  location: "",
+};
+
 export default function CreateScreen({ navigation }) {
+  const [state, setState] = useState(initialState);
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  const [isInputOnFocus, setIsInputOnFocus] = useState(false);
+  const [hasPermission, setHasPermission] = useState(null);
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      await MediaLibrary.requestPermissionsAsync();
+
+      setHasPermission(status === "granted");
+    })();
+  }, []);
+
+  if (hasPermission === null) {
+    return <View />;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
+
+  const keyboardHide = () => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+  };
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
     setPhoto(photo.uri);
+    await MediaLibrary.createAssetAsync(photo.uri);
   };
 
   const sendPhoto = () => {
-    console.log("navigation: ", navigation);
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+    setState(initialState);
     navigation.navigate("Posts", { photo });
+
+    console.log("navigation: ", navigation);
+    console.log(state);
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.cameraWrapper}>
-        {/* <View>
+    <TouchableWithoutFeedback onPress={keyboardHide}>
+      <View style={styles.container}>
+        <View style={styles.cameraWrapper}>
+          {/* <View>
           <Image
             source={{
               uri: photo,
@@ -38,36 +80,33 @@ export default function CreateScreen({ navigation }) {
             style={{ height: 200, width: 200 }}
           />
         </View> */}
-        <Camera style={styles.camera} ref={setCamera}>
-          <TouchableOpacity style={styles.snapBtn} onPress={takePhoto}>
-            <MaterialIcons name="camera-alt" size={24} color="#BDBDBD" />
-          </TouchableOpacity>
-        </Camera>
-      </View>
+          <Camera style={styles.camera} ref={setCamera}>
+            <TouchableOpacity style={styles.snapBtn} onPress={takePhoto}>
+              <MaterialIcons name="camera-alt" size={24} color="#BDBDBD" />
+            </TouchableOpacity>
+          </Camera>
+        </View>
 
-      <View style={styles.formWrapper}>
-        <Text style={styles.photoDesc}>Загрузите фото</Text>
-
-        <View style={styles.inpupWrapper}>
-          {/* <TextInput
-            style={{
-              ...styles.input,
-              borderColor: !photo ? "#FF6C00" : "#E8E8E8",
-            }}
-            placeholder="Адрес электронной почты"
-            placeholderTextColor="#BDBDBD"
-            value={state.email}
-            onChangeText={(value) =>
-              setState((prevState) => ({ ...prevState, email: value }))
-            }
-            onFocus={() => {
-              setIsShowKeyboard(true);
-              setIsInputOnFocus("email");
-            }}
-            onBlur={() => {
-              setIsInputOnFocus(false);
-            }}
-          /> */}
+        <View style={styles.formWrapper}>
+          <Text style={styles.photoDesc}>Загрузите фото</Text>
+          <View style={styles.inpupWrapper}>
+            <TextInput
+              style={styles.input}
+              placeholder="Название..."
+              placeholderTextColor="#BDBDBD"
+              value={state.title}
+              onChangeText={(value) =>
+                setState((prevState) => ({ ...prevState, title: value }))
+              }
+              onFocus={() => {
+                setIsShowKeyboard(true);
+                // setIsInputOnFocus("email");
+              }}
+              onBlur={() => {
+                setIsInputOnFocus(false);
+              }}
+            />
+          </View>
           <TouchableOpacity
             style={styles.submitBtn}
             activeOpacity={0.7}
@@ -77,7 +116,7 @@ export default function CreateScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -117,6 +156,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   photoDesc: {
+    marginBottom: 32,
     color: "#BDBDBD",
     fontWeight: "400",
     fontFamily: "Roboto-Regular",
@@ -128,7 +168,8 @@ const styles = StyleSheet.create({
 
   input: {
     borderWidth: 1,
-    borderRadius: 8,
+    // borderRadius: 8,
+
     backgroundColor: "#F6F6F6",
     color: "#212121",
     height: 50,
