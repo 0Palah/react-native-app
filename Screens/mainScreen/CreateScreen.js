@@ -54,18 +54,19 @@ export default function CreateScreen({ navigation }) {
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
-    setPhoto(photo.uri);
+    // setPhoto(photo.uri);
+    setState((prevState) => ({ ...prevState, photo: photo.uri }));
     await MediaLibrary.createAssetAsync(photo.uri);
   };
 
   const sendPhoto = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
+    console.log(state);
     setState(initialState);
-    navigation.navigate("Posts", { photo });
+    navigation.navigate("Posts", { state });
 
     console.log("navigation: ", navigation);
-    console.log(state);
   };
 
   return (
@@ -97,6 +98,24 @@ export default function CreateScreen({ navigation }) {
               value={state.title}
               onChangeText={(value) =>
                 setState((prevState) => ({ ...prevState, title: value }))
+              }
+              onFocus={() => {
+                setIsShowKeyboard(true);
+                // setIsInputOnFocus("email");
+              }}
+              onBlur={() => {
+                setIsInputOnFocus(false);
+              }}
+            />
+          </View>
+          <View style={styles.inpupWrapper}>
+            <TextInput
+              style={styles.input}
+              placeholder="Местность..."
+              placeholderTextColor="#BDBDBD"
+              value={state.location}
+              onChangeText={(value) =>
+                setState((prevState) => ({ ...prevState, location: value }))
               }
               onFocus={() => {
                 setIsShowKeyboard(true);
@@ -158,6 +177,7 @@ const styles = StyleSheet.create({
   photoDesc: {
     marginBottom: 32,
     color: "#BDBDBD",
+    fontSize: 16,
     fontWeight: "400",
     fontFamily: "Roboto-Regular",
   },
@@ -167,13 +187,16 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    borderWidth: 1,
-    // borderRadius: 8,
-
-    backgroundColor: "#F6F6F6",
+    borderLeftWidth: 0,
+    borderTopWidth: 0,
+    borderRightWidth: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: "#E8E8E8",
+    // backgroundColor: "#F6F6F6",
     color: "#212121",
     height: 50,
-    paddingHorizontal: 16,
+    // paddingHorizontal: 16,
+    fontSize: 16,
     fontFamily: "Roboto-Regular",
   },
 
@@ -182,6 +205,7 @@ const styles = StyleSheet.create({
     height: 51,
     borderRadius: 100,
     paddingVertical: 16,
+    marginTop: 16,
   },
 
   btnName: {

@@ -211,6 +211,7 @@ const styles = StyleSheet.create({
     color: "#212121",
     height: 50,
     paddingHorizontal: 16,
+    fontSize: 16,
     fontFamily: "Roboto-Regular",
   },
 
@@ -226,6 +227,7 @@ const styles = StyleSheet.create({
     color: "#212121",
     height: 50,
     paddingHorizontal: 16,
+    fontSize: 16,
     fontFamily: "Roboto-Regular",
   },
 
