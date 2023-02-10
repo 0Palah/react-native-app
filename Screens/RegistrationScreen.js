@@ -61,7 +61,7 @@ export default function RegistrationScreen({ navigation }) {
           style={styles.imgBG}
         >
           <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            behavior={Platform.OS === "ios" ? "padding" : ""}
             style={styles.KAVWrapper}
           >
             {/* <RegistrationScreen></RegistrationScreen> */}
