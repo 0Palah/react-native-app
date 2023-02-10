@@ -29,7 +29,7 @@ export default function CreateScreen({ navigation }) {
   const [isInputOnFocus, setIsInputOnFocus] = useState(false);
   const [hasPermission, setHasPermission] = useState(null);
   const [camera, setCamera] = useState(null);
-  const [photo, setPhoto] = useState(null);
+  // const [photo, setPhoto] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -64,7 +64,7 @@ export default function CreateScreen({ navigation }) {
     Keyboard.dismiss();
     console.log(state);
     setState(initialState);
-    navigation.navigate("Posts", { state });
+    navigation.navigate("Posts", { ...state });
 
     console.log("navigation: ", navigation);
   };
