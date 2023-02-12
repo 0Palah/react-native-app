@@ -14,6 +14,7 @@ import {
 import { Camera, CameraType } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { MaterialIcons } from "@expo/vector-icons";
+import * as Location from "expo-location";
 
 // const CreateScreen = () => {
 
@@ -29,6 +30,7 @@ export default function CreateScreen({ navigation }) {
   const [isInputOnFocus, setIsInputOnFocus] = useState(false);
   const [hasPermission, setHasPermission] = useState(null);
   const [camera, setCamera] = useState(null);
+  const [location, setLocation] = useState(null);
   // const [photo, setPhoto] = useState(null);
 
   useEffect(() => {
@@ -37,6 +39,18 @@ export default function CreateScreen({ navigation }) {
       await MediaLibrary.requestPermissionsAsync();
 
       setHasPermission(status === "granted");
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      let locationStatus = await Location.requestPermissionsAsync();
+      console.log("locationStatus: ", locationStatus);
+      const { status } = locationStatus;
+      console.log("status: ", status);
+      if (status !== "granted") {
+        console.log("Permission to access location was denied");
+      }
     })();
   }, []);
 
@@ -59,14 +73,24 @@ export default function CreateScreen({ navigation }) {
     await MediaLibrary.createAssetAsync(photo.uri);
   };
 
-  const sendPhoto = () => {
+  const sendPhoto = async () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
     console.log(state);
     setState(initialState);
-    navigation.navigate("Posts", { ...state });
 
+    const location = await Location.getCurrentPositionAsync({});
+    console.log("location: ", location);
+    const coords = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    };
+    setLocation("coords: ", coords);
+
+    console.log(coords);
     console.log("navigation: ", navigation);
+
+    navigation.navigate("DefaultScreen", { ...state });
   };
 
   return (
