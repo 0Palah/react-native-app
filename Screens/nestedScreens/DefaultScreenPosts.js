@@ -45,6 +45,17 @@ export default function DefaultScreenPosts({ route, navigation }) {
             <View>
               <Text style={styles.postTitle}>{item.title} </Text>
             </View>
+
+            {/*=========== Зробити клікабельну іконку для коментарів ======*/}
+
+            {/* <TouchableOpacity
+              // style={styles.btnToglePassword}
+              activeOpacity={0.7}
+              onPress={() => navigation.navigate("CommentsScreen")}
+            >
+              <Text style={styles.postTitle}>{item.title} </Text>
+            </TouchableOpacity> */}
+
             {/* <Text style={styles.location}>{item.location}</Text> */}
             <TouchableOpacity
               // style={styles.btnToglePassword}
