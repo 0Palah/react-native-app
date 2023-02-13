@@ -10,10 +10,12 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Keyboard,
+  ScrollView,
 } from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { MaterialIcons } from "@expo/vector-icons";
+import * as Location from "expo-location";
 
 // const CreateScreen = () => {
 
@@ -37,6 +39,26 @@ export default function CreateScreen({ navigation }) {
       await MediaLibrary.requestPermissionsAsync();
 
       setHasPermission(status === "granted");
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      console.log("location:", location);
+      const coords = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      };
+      console.log(coords);
+      setState((state.location = coords));
+      console.log("state in useEffect:", state);
     })();
   }, []);
 
@@ -71,7 +93,7 @@ export default function CreateScreen({ navigation }) {
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.cameraWrapper}>
           {/* <View>
           <Image
@@ -134,7 +156,7 @@ export default function CreateScreen({ navigation }) {
             <Text style={styles.btnName}>Опубликовать</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 }
