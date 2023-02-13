@@ -64,7 +64,7 @@ export default function CreateScreen({ navigation }) {
     Keyboard.dismiss();
     console.log(state);
     setState(initialState);
-    navigation.navigate("Posts", { ...state });
+    navigation.navigate("DefaultScreen", { ...state });
 
     console.log("navigation: ", navigation);
   };
