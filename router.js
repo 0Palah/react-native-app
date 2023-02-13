@@ -47,7 +47,6 @@ const useRoute = (isAuth) => {
         component={PostsScreen}
         options={{
           headerShown: false,
-
           tabBarShowLabel: false,
 
           tabBarIcon: (focused, color, size) => (
@@ -64,13 +63,11 @@ const useRoute = (isAuth) => {
             height: 83,
             borderBottomWidth: 1,
             borderColor: "#E8E8E8",
-            // paddingBottom: 11,
-            // backgroundColor: "red",
           },
 
-          tabBarStyle: {
-            display: "none",
-          },
+          // tabBarStyle: {
+          //   display: "none",
+          // },
 
           headerTitleContainerStyle: {
             // height: 88,
@@ -144,6 +141,8 @@ const styles = StyleSheet.create({
   mainTabContainer: {
     headerTitleAlign: "center",
 
+    // styles change dynamically when unrolling !!!
+    // in MapScreen and CommentsScreen
     tabBarStyle: {
       height: 83,
       paddingTop: 9,
