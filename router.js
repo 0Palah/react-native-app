@@ -65,9 +65,9 @@ const useRoute = (isAuth) => {
             borderColor: "#E8E8E8",
           },
 
-          // tabBarStyle: {
-          //   display: "none",
-          // },
+          tabBarStyle: {
+            display: "none",
+          },
 
           headerTitleContainerStyle: {
             // height: 88,
