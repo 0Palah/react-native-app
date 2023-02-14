@@ -25,5 +25,3 @@ const styles = StyleSheet.create({
     color: "#212121",
   },
 });
-
-// export default ProfileScreen;

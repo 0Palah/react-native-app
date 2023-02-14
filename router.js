@@ -46,45 +46,7 @@ const useRoute = (isAuth) => {
         name="Posts"
         component={PostsScreen}
         options={{
-          title: "Публикации",
-          headerStyle: {
-            height: 83,
-            borderBottomWidth: 1,
-            borderColor: "#E8E8E8",
-          },
-
-          headerTitleContainerStyle: {
-            paddingBottom: 11,
-            marginRight: 0,
-          },
-
-          headerTitleStyle: {
-            fontWeight: "500",
-            fontSize: 17,
-            letterSpacing: -0.408,
-            color: "#212121",
-            marginTop: "auto",
-          },
-
-          headerRightContainerStyle: {
-            paddingRight: 16,
-            marginTop: "auto",
-            marginBottom: 11,
-            // color: "#BDBDBD",
-          },
-
-          headerRight: (focused, color, size) => (
-            // <Pressable
-            //   onPress={() => {
-            //     console.log(123);
-            //     navigation.navigate("Login");
-            //   }}
-            // >
-            //   <Feather name="log-out" size={24} color="black" />
-            // </Pressable>
-            <Feather name="log-out" size={24} color="#BDBDBD" />
-          ),
-
+          headerShown: false,
           tabBarShowLabel: false,
 
           tabBarIcon: (focused, color, size) => (
@@ -101,12 +63,10 @@ const useRoute = (isAuth) => {
             height: 83,
             borderBottomWidth: 1,
             borderColor: "#E8E8E8",
-            // paddingBottom: 11,
-            // backgroundColor: "red",
           },
 
           tabBarStyle: {
-            // display: "none",
+            display: "none",
           },
 
           headerTitleContainerStyle: {
@@ -142,7 +102,7 @@ const useRoute = (isAuth) => {
               name="arrowleft"
               size={24}
               color="#212121CC"
-              onPress={() => goBack()}
+              onPress={() => {}}
             />
           ),
 
@@ -181,6 +141,8 @@ const styles = StyleSheet.create({
   mainTabContainer: {
     headerTitleAlign: "center",
 
+    // styles change dynamically when unrolling !!!
+    // in MapScreen and CommentsScreen
     tabBarStyle: {
       height: 83,
       paddingTop: 9,

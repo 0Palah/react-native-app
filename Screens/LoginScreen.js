@@ -59,7 +59,7 @@ export default function LoginScreen({ navigation }) {
           style={styles.imgBG}
         >
           <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            behavior={Platform.OS === "ios" ? "padding" : ""}
             style={styles.KAVWrapper}
           >
             {/* <RegistrationScreen></RegistrationScreen> */}
@@ -206,14 +206,13 @@ const styles = StyleSheet.create({
 
   inputLoginEmail: {
     borderWidth: 1,
-    // borderColor: "#E8E8E8",
     borderRadius: 8,
     backgroundColor: "#F6F6F6",
     color: "#212121",
     height: 50,
     paddingHorizontal: 16,
+    fontSize: 16,
     fontFamily: "Roboto-Regular",
-    // placeholderTextColor: "#BDBDBD",
   },
 
   inpupWrapperPassword: {
@@ -228,6 +227,7 @@ const styles = StyleSheet.create({
     color: "#212121",
     height: 50,
     paddingHorizontal: 16,
+    fontSize: 16,
     fontFamily: "Roboto-Regular",
   },
 
