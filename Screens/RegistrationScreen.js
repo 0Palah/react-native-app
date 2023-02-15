@@ -16,11 +16,10 @@ import {
 } from "react-native";
 
 import { useDispatch } from "react-redux";
+import { authSignUpUser } from "../redux/auth/authOperations";
 
 import Svg, { Path } from "react-native-svg";
 import SvgCross from "../assets/cross.svg";
-
-import { authSignUpUser } from "../redux/auth/authOperations";
 
 const initialState = {
   login: "",

@@ -1,6 +1,8 @@
 import "react-native-gesture-handler";
 import React, { useState, useEffect, useCallback } from "react";
 import { Provider } from "react-redux";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase/config";
 
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
@@ -8,13 +10,37 @@ import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
 import { NavigationContainer } from "@react-navigation/native";
+
 import useRoute from "./router";
 import { store } from "./redux/store";
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
+  // isAuth();
+  const [user, setUser] = useState(null);
 
-  const routing = useRoute(false);
+  onAuthStateChanged(auth, (user) => {
+    setUser(user);
+  });
+
+  // async function isAuth() {
+  //   try {
+  //     await onAuthStateChanged(auth, (user) => {
+  //       setUser(user);
+  //       // if (user) {
+  //       //   console.log(user);
+  //       //   const uid = user.uid;
+  //       // } else {
+  //       //   // User is signed out
+  //       //   console.log("User is signed out");
+  //       // }
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+  const routing = useRoute(user);
 
   useEffect(() => {
     async function prepare() {
