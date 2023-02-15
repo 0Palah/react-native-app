@@ -9,11 +9,12 @@ import * as SplashScreen from "expo-splash-screen";
 
 import { NavigationContainer } from "@react-navigation/native";
 import useRoute from "./router";
+import { store } from "./redux/store";
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
 
-  const routing = useRoute(true);
+  const routing = useRoute(false);
 
   useEffect(() => {
     async function prepare() {
@@ -42,10 +43,12 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
-      <StatusBar style="auto" />
-      <NavigationContainer>{routing}</NavigationContainer>
-    </View>
+    <Provider store={store}>
+      <View style={styles.container} onLayout={onLayoutRootView}>
+        <StatusBar style="auto" />
+        <NavigationContainer>{routing}</NavigationContainer>
+      </View>
+    </Provider>
   );
 }
 
