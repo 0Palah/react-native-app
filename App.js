@@ -1,28 +1,33 @@
 import "react-native-gesture-handler";
 import React, { useState, useEffect, useCallback } from "react";
 import { Provider } from "react-redux";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase/config";
+// import { onAuthStateChanged } from "firebase/auth";
+// import { auth } from "./firebase/config";
 
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
-import { NavigationContainer } from "@react-navigation/native";
+// import { NavigationContainer } from "@react-navigation/native";
 
-import useRoute from "./router";
+// import useRoute from "./router";
 import { store } from "./redux/store";
+import Main from "./components/Main";
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
   // isAuth();
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
 
-  onAuthStateChanged(auth, (user) => {
-    setUser(user);
-  });
+  // console.log("userBefor:", user);
 
+  // const state = useSelector((state) => state);
+
+  // onAuthStateChanged(auth, (user) => {
+  //   setUser(user);
+  // });
+  // console.log("userAfter:", user);
   // async function isAuth() {
   //   try {
   //     await onAuthStateChanged(auth, (user) => {
@@ -40,7 +45,7 @@ export default function App() {
   //   }
   // }
 
-  const routing = useRoute(user);
+  // const routing = useRoute(user);
 
   useEffect(() => {
     async function prepare() {
@@ -72,7 +77,7 @@ export default function App() {
     <Provider store={store}>
       <View style={styles.container} onLayout={onLayoutRootView}>
         <StatusBar style="auto" />
-        <NavigationContainer>{routing}</NavigationContainer>
+        <Main />
       </View>
     </Provider>
   );
