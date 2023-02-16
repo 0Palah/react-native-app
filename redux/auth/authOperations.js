@@ -2,7 +2,9 @@ import { auth } from "../../firebase/config";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
+import { authSlice } from "./authReducer";
 
 // export function test() {
 //   return console.log(321);
@@ -13,13 +15,28 @@ export const authSignUpUser =
   async (dispatch, getState) => {
     try {
       // деструктуризую user з userCredential
-      const { user } = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password,
-        login
+      await createUserWithEmailAndPassword(auth, email, password);
+
+      await updateProfile(auth.currentUser, {
+        displayName: login,
+        // photoURL: "https://example.com/jane-q-user/profile.jpg",
+      })
+        .then(() => {
+          console.log("Success");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      const { uid, displayName } = await auth.currentUser;
+
+      // console.log(user);
+
+      // const { uid, displayName } = user;
+
+      dispatch(
+        authSlice.actions.updateUserProfile({ userId: uid, login: displayName })
       );
-      console.log("user: ", user);
     } catch (error) {
       console.log(error);
       const errorCode = error.code;
@@ -42,3 +59,5 @@ export const authSignInUser =
   };
 
 export const authSignOutUser = () => async (dispatch, getState) => {};
+
+// export const authSignOutUser = () => async (dispatch, getState) => {};
