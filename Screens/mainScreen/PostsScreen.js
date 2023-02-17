@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, FlatList, Image } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useDispatch } from "react-redux";
 // import { Ionicons } from "@expo/vector-icons";
 
+import { authSignOutUser } from "../../redux/auth/authOperations";
 import DefaultScreenPosts from "../nestedScreens/DefaultScreenPosts";
 import CommentsScreen from "../nestedScreens/CommentsScreen";
 import MapScreen from "../nestedScreens/MapScreen";
@@ -12,6 +14,7 @@ import { Feather } from "@expo/vector-icons";
 const NestedScreen = createNativeStackNavigator();
 
 export default function PostsScreen({ route }) {
+  const dispatch = useDispatch();
   return (
     <NestedScreen.Navigator screenOptions={styles.mainTabContainer}>
       <NestedScreen.Screen
@@ -54,7 +57,16 @@ export default function PostsScreen({ route }) {
             // >
             //   <Feather name="log-out" size={24} color="black" />
             // </Pressable>
-            <Feather name="log-out" size={24} color="#BDBDBD" />
+            <Feather
+              name="log-out"
+              size={24}
+              color="#BDBDBD"
+              onPress={() => {
+                dispatch(authSignOutUser());
+                console.log(123);
+                // navigation.navigate("Login");
+              }}
+            />
           ),
         }}
       />
