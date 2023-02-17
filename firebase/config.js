@@ -1,6 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
+import { getFirestore } from "firebase/firestore";
 
 // import { getAnalytics } from "firebase/analytics";
 
@@ -22,26 +24,14 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 export const auth = getAuth(firebaseApp);
+export const storage = getStorage(firebaseApp);
+export const firestore = getFirestore(firebaseApp);
 
-// const analytics = getAnalytics(firebaseApp);
-
-// ===============================================
-
-// import * as firebase from "firebase";
-// import "firebase/auth";
-
-// const firebaseConfig = {
-//   apiKey: "AIzaSyCIfp7uV_JRXcLadgHlYKnGhN_zKnal8Sw",
-//   authDomain: "rn-social-58923.firebaseapp.com",
-//   projectId: "rn-social-58923",
-//   storageBucket: "rn-social-58923.appspot.com",
-//   messagingSenderId: "866615434732",
-//   appId: "1:866615434732:web:7f7abcd66861f2db3574c9",
-//   measurementId: "G-83MSL9WXDX",
-// };
-
-// export default firebase.initializeApp(firebaseConfig);
-
-// // const auth = firebase.auth();
-
-// // export { auth };
+// rules_version = '2';
+// service firebase.storage {
+//   match /b/{bucket}/o {
+//     match /{allPaths=**} {
+//       allow read, write: if false;
+//     }
+//   }
+// }

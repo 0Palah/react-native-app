@@ -16,6 +16,8 @@ import { Camera, CameraType } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as Location from "expo-location";
+import { storage, firestore } from "../../firebase/config";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 
 // const CreateScreen = () => {
 
@@ -81,14 +83,37 @@ export default function CreateScreen({ navigation }) {
     await MediaLibrary.createAssetAsync(photo.uri);
   };
 
+  const uploadPhotoToServer = async () => {
+    const response = await fetch(state.photo);
+    const file = await response.blob();
+
+    // add uuid or nanoid
+    const uniquePostId = Date.now().toString();
+
+    const data = await ref(storage, `postImage/${uniquePostId}`);
+    console.log(data);
+
+    await uploadBytes(data, file).then((snapshot) => {
+      console.log("Uploaded a blob or file!");
+    });
+
+    const downloadedPhoto = await getDownloadURL(data)
+      .then((url) => {
+        return url;
+        // тут можна вставити фотку в якийсь елемент
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // console.log(downloadedPhoto);
+  };
+
   const sendPhoto = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
-    console.log(state);
     setState(initialState);
+    uploadPhotoToServer();
     navigation.navigate("DefaultScreen", { ...state });
-
-    console.log("navigation: ", navigation);
   };
 
   return (
