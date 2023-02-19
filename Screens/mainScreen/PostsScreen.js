@@ -63,7 +63,6 @@ export default function PostsScreen({ route }) {
               color="#BDBDBD"
               onPress={() => {
                 dispatch(authSignOutUser());
-                console.log(123);
                 // navigation.navigate("Login");
               }}
             />

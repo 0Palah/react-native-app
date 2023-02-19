@@ -1,5 +1,6 @@
 // import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import {
   StyleSheet,
   Text,
@@ -16,8 +17,9 @@ import { Camera, CameraType } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as Location from "expo-location";
-import { storage, firestore } from "../../firebase/config";
+import { storage, firestoreDB } from "../../firebase/config";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import { collection, addDoc } from "firebase/firestore";
 
 // const CreateScreen = () => {
 
@@ -33,6 +35,9 @@ export default function CreateScreen({ navigation }) {
   const [isInputOnFocus, setIsInputOnFocus] = useState(false);
   const [hasPermission, setHasPermission] = useState(null);
   const [camera, setCamera] = useState(null);
+
+  const { userId, login } = useSelector((state) => state.auth);
+
   // const [photo, setPhoto] = useState(null);
 
   useEffect(() => {
@@ -85,6 +90,7 @@ export default function CreateScreen({ navigation }) {
 
   const uploadPhotoToServer = async () => {
     const response = await fetch(state.photo);
+    console.log("response:   -----> ", response);
     const file = await response.blob();
 
     // add uuid or nanoid
@@ -105,14 +111,36 @@ export default function CreateScreen({ navigation }) {
       .catch((error) => {
         console.log(error);
       });
-    // console.log(downloadedPhoto);
+    // console.log("downloadedPhoto -->", downloadedPhoto);
+    return downloadedPhoto;
+  };
+
+  const uploadPostToServer = async () => {
+    try {
+      const photo = await uploadPhotoToServer();
+      console.log(photo);
+      const data = {
+        ...state,
+        photo,
+        userId,
+        login,
+      };
+      console.log("data:------------>", data);
+      const createPost = await addDoc(collection(firestoreDB, "posts"), data);
+      console.log("Document written with ID: ", createPost);
+      console.log("Document written with ID: ", createPost.id);
+      // console.log(123456);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   };
 
   const sendPhoto = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
     setState(initialState);
-    uploadPhotoToServer();
+    uploadPostToServer();
+    // uploadPhotoToServer();
     navigation.navigate("DefaultScreen", { ...state });
   };
 

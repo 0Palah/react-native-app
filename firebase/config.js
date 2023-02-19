@@ -25,7 +25,7 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 export const auth = getAuth(firebaseApp);
 export const storage = getStorage(firebaseApp);
-export const firestore = getFirestore(firebaseApp);
+export const firestoreDB = getFirestore(firebaseApp);
 
 // rules_version = '2';
 // service firebase.storage {
