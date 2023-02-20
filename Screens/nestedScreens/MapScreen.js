@@ -4,6 +4,9 @@ import MapView, { Marker } from "react-native-maps";
 // import { Ionicons } from "@expo/vector-icons";
 
 export default function MapScreen({ route, navigation }) {
+  console.log("route:", route);
+  const location = route.params.location;
+  const { latitude, longitude } = location;
   useEffect(() => {
     navigation.getParent()?.setOptions({
       tabBarStyle: {
@@ -27,15 +30,15 @@ export default function MapScreen({ route, navigation }) {
       <MapView
         style={styles.map}
         initialRegion={{
-          latitude: 50.45,
-          longitude: 30.523333,
+          latitude: latitude,
+          longitude: longitude,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
       >
         <Marker
           //   key={index}
-          coordinate={{ latitude: 50.45, longitude: 30.523333 }}
+          coordinate={{ latitude: latitude, longitude: longitude }}
           //   title={marker.title}
           //   description={marker.description}
         />

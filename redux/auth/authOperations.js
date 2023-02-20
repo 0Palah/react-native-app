@@ -52,6 +52,12 @@ export const authSignInUser =
     try {
       // деструктуризую user з userCredential
       const { user } = await signInWithEmailAndPassword(auth, email, password);
+      dispatch(
+        authSlice.actions.updateUserProfile({
+          userId: uid,
+          login: displayName,
+        })
+      );
     } catch (error) {
       console.log(error);
       const errorCode = error.code;

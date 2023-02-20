@@ -223,6 +223,7 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     // justifyContent: "center",
   },
+
   cameraWrapper: {
     color: "#212121",
     borderWidth: 1,
@@ -249,6 +250,7 @@ const styles = StyleSheet.create({
   formWrapper: {
     marginTop: 8,
   },
+
   photoDesc: {
     marginBottom: 32,
     color: "#BDBDBD",

@@ -7,16 +7,34 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
+import { collection, getDocs, doc, onSnapshot } from "firebase/firestore";
+
+import { firestoreDB } from "../../firebase/config";
 // import { Ionicons } from "@expo/vector-icons";
 
 export default function DefaultScreenPosts({ route, navigation }) {
   const [posts, setPosts] = useState([]);
 
+  const getAllPosts = async () => {
+    const querySnapshot = await onSnapshot(
+      collection(firestoreDB, "posts"),
+      (data) => {
+        // console.log("data.docs: ============>", data.docs[0].data());
+        setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      }
+    );
+  };
+
   useEffect(() => {
-    if (route.params) {
-      setPosts((prevState) => [...prevState, route.params]);
-    }
-  }, [route.params]);
+    getAllPosts();
+    // console.log(posts);
+  }, []);
+
+  // useEffect(() => {
+  //   if (route.params) {
+  //     setPosts((prevState) => [...prevState, route.params]);
+  //   }
+  // }, [route.params]);
 
   console.log("PostsScreen --> posts: ", posts);
   console.log("PostsScreen --> route.params: ", route.params);
@@ -45,7 +63,12 @@ export default function DefaultScreenPosts({ route, navigation }) {
               //   style={styles.link}
               activeOpacity={0.7}
               // onPress={() => keyboardHide()}
-              onPress={() => navigation.navigate("CommentsScreen")}
+              onPress={() =>
+                navigation.navigate("CommentsScreen", {
+                  postId: item.id,
+                  uri: item.photo,
+                })
+              }
             >
               <Text style={styles.location}>CommentsScreen</Text>
             </TouchableOpacity>
@@ -54,7 +77,15 @@ export default function DefaultScreenPosts({ route, navigation }) {
               //   style={styles.link}
               activeOpacity={0.7}
               // onPress={() => keyboardHide()}
-              onPress={() => navigation.navigate("MapScreen")}
+              onPress={() =>
+                navigation.navigate("MapScreen", {
+                  location: {
+                    name: item.location,
+                    latitude: item.latitude,
+                    longitude: item.longitude,
+                  },
+                })
+              }
             >
               <Text style={styles.location}>{item.location}</Text>
             </TouchableOpacity>
