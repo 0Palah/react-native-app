@@ -16,6 +16,7 @@ import {
 import { Camera, CameraType } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import { storage, firestoreDB } from "../../firebase/config";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
@@ -144,11 +145,16 @@ export default function CreateScreen({ navigation }) {
     navigation.navigate("DefaultScreen", { ...state });
   };
 
+  const onPressDeleteBtn = () => {
+    setState(initialState);
+  };
+
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
-      <ScrollView style={styles.container}>
-        <View style={styles.cameraWrapper}>
-          {/* <View>
+      <View style={styles.container}>
+        <ScrollView>
+          <View style={styles.cameraWrapper}>
+            {/* <View>
           <Image
             source={{
               uri: photo,
@@ -156,60 +162,76 @@ export default function CreateScreen({ navigation }) {
             style={{ height: 200, width: 200 }}
           />
         </View> */}
-          <Camera style={styles.camera} ref={setCamera}>
-            <TouchableOpacity style={styles.snapBtn} onPress={takePhoto}>
-              <MaterialIcons name="camera-alt" size={24} color="#BDBDBD" />
-            </TouchableOpacity>
-          </Camera>
-        </View>
+            <Camera style={styles.camera} ref={setCamera}>
+              <TouchableOpacity style={styles.snapBtn} onPress={takePhoto}>
+                <MaterialIcons name="camera-alt" size={24} color="#BDBDBD" />
+              </TouchableOpacity>
+            </Camera>
+          </View>
 
-        <View style={styles.formWrapper}>
-          <Text style={styles.photoDesc}>Загрузите фото</Text>
-          <View style={styles.inpupWrapper}>
-            <TextInput
-              style={styles.input}
-              placeholder="Название..."
-              placeholderTextColor="#BDBDBD"
-              value={state.title}
-              onChangeText={(value) =>
-                setState((prevState) => ({ ...prevState, title: value }))
-              }
-              onFocus={() => {
-                setIsShowKeyboard(true);
-                // setIsInputOnFocus("email");
-              }}
-              onBlur={() => {
-                setIsInputOnFocus(false);
-              }}
-            />
+          <View style={styles.formWrapper}>
+            <Text style={styles.photoDesc}>Загрузите фото</Text>
+            <View style={styles.inpupWrapper}>
+              <TextInput
+                style={styles.input}
+                placeholder="Название..."
+                placeholderTextColor="#BDBDBD"
+                value={state.title}
+                onChangeText={(value) =>
+                  setState((prevState) => ({ ...prevState, title: value }))
+                }
+                onFocus={() => {
+                  setIsShowKeyboard(true);
+                  // setIsInputOnFocus("email");
+                }}
+                onBlur={() => {
+                  setIsInputOnFocus(false);
+                }}
+              />
+            </View>
+            <View style={styles.inpupWrapper}>
+              <TextInput
+                style={styles.input}
+                placeholder="Местность..."
+                placeholderTextColor="#BDBDBD"
+                value={state.location}
+                onChangeText={(value) =>
+                  setState((prevState) => ({ ...prevState, location: value }))
+                }
+                onFocus={() => {
+                  setIsShowKeyboard(true);
+                  // setIsInputOnFocus("email");
+                }}
+                onBlur={() => {
+                  setIsInputOnFocus(false);
+                }}
+              />
+            </View>
+            <TouchableOpacity
+              style={styles.submitBtn}
+              activeOpacity={0.7}
+              onPress={() => sendPhoto()}
+            >
+              <Text style={styles.btnName}>Опубликовать</Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.inpupWrapper}>
-            <TextInput
-              style={styles.input}
-              placeholder="Местность..."
-              placeholderTextColor="#BDBDBD"
-              value={state.location}
-              onChangeText={(value) =>
-                setState((prevState) => ({ ...prevState, location: value }))
-              }
-              onFocus={() => {
-                setIsShowKeyboard(true);
-                // setIsInputOnFocus("email");
-              }}
-              onBlur={() => {
-                setIsInputOnFocus(false);
-              }}
-            />
-          </View>
+        </ScrollView>
+        <View style={styles.deleteBtnWrraper}>
           <TouchableOpacity
-            style={styles.submitBtn}
-            activeOpacity={0.7}
-            onPress={() => sendPhoto()}
+            style={styles.deleteBtn}
+            activeOpacity={!!state.title || !!state.location ? 0.2 : 1}
+            onPress={
+              !!state.title || !!state.location ? onPressDeleteBtn : null
+            }
           >
-            <Text style={styles.btnName}>Опубликовать</Text>
+            {!!state.title || !!state.location ? (
+              <Feather name="trash-2" size={24} color="black" />
+            ) : (
+              <Feather name="trash-2" size={24} color="#BDBDBD" />
+            )}
           </TouchableOpacity>
         </View>
-      </ScrollView>
+      </View>
     </TouchableWithoutFeedback>
   );
 }
@@ -290,5 +312,19 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     textAlign: "center",
     fontFamily: "Roboto-Regular",
+  },
+
+  deleteBtnWrraper: {
+    paddingTop: 9,
+    paddingBottom: 34,
+    alignItems: "center",
+  },
+  deleteBtn: {
+    width: 70,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F6F6F6",
+    borderRadius: 20,
   },
 });

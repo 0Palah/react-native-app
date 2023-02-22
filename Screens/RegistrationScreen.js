@@ -69,8 +69,6 @@ export default function RegistrationScreen({ navigation }) {
             behavior={Platform.OS === "ios" ? "padding" : ""}
             style={styles.KAVWrapper}
           >
-            {/* <RegistrationScreen></RegistrationScreen> */}
-
             <View
               style={{
                 ...styles.formWrapper,

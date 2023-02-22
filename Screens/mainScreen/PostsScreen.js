@@ -49,21 +49,12 @@ export default function PostsScreen({ route }) {
           },
 
           headerRight: (focused, color, size) => (
-            // <Pressable
-            //   onPress={() => {
-            //     console.log(123);
-            //     navigation.navigate("Login");
-            //   }}
-            // >
-            //   <Feather name="log-out" size={24} color="black" />
-            // </Pressable>
             <Feather
               name="log-out"
               size={24}
               color="#BDBDBD"
               onPress={() => {
                 dispatch(authSignOutUser());
-                // navigation.navigate("Login");
               }}
             />
           ),

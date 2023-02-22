@@ -71,7 +71,6 @@ export default function CommentsScreen({ route, navigation }) {
       const newComment = await onSnapshot(commentsRef, (data) => {
         // console.log("data.docs: ============>", data.docs[0].data());
         setAllComments(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        console.log(allComments);
       });
     } catch (error) {
       console.log(error);
@@ -81,6 +80,8 @@ export default function CommentsScreen({ route, navigation }) {
   useEffect(() => {
     getAllComments();
   }, []);
+
+  console.log("allComments:", allComments);
 
   return (
     <View style={styles.container}>
