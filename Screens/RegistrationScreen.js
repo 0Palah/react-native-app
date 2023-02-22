@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -15,41 +15,61 @@ import {
   Pressable,
 } from "react-native";
 
+import { useDispatch } from "react-redux";
+import { authSignUpUser } from "../redux/auth/authOperations";
+
 import Svg, { Path } from "react-native-svg";
-import SvgCross from "../assets/cross.svg";
+import { AntDesign } from "@expo/vector-icons";
+// import SvgCross from "../assets/cross.svg";
+
+const avatarExample = require("../assets/avatarExample.jpg");
 
 const initialState = {
   login: "",
   email: "",
   password: "",
+  avatar: null,
 };
 
 export default function RegistrationScreen({ navigation }) {
-  // console.log(navigation);
   const [state, setState] = useState(initialState);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
   const [isInputOnFocus, setIsInputOnFocus] = useState(false);
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+  const [isAvatar, setIsAvatar] = useState(false);
+  const [avatarUser, setAvatarUser] = useState("");
 
-  // const [platform, setPlatform] = useState("");
+  const dispatch = useDispatch();
 
-  // зробити ще одну ф-ю для сабміту, щоб не скидало форму при TouchableWithoutFeedback
   const keyboardHide = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
-    // setState(initialState);
   };
 
   const onSubmitForm = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
+    dispatch(authSignUpUser(state));
     setState(initialState);
-    console.log(state);
   };
 
   const togglePasswordHide = () => {
     setIsPasswordHidden(isPasswordHidden === true ? false : true);
+  };
+
+  const onPressBtnAvatar = async (event) => {
+    if (isAvatar) {
+      console.log("Deleted avatar");
+
+      setAvatarUser("");
+      setIsAvatar(false);
+    } else {
+      console.log("Added avatar");
+
+      setAvatarUser(avatarExample);
+      setIsAvatar(true);
+    }
   };
 
   return (
@@ -64,8 +84,6 @@ export default function RegistrationScreen({ navigation }) {
             behavior={Platform.OS === "ios" ? "padding" : ""}
             style={styles.KAVWrapper}
           >
-            {/* <RegistrationScreen></RegistrationScreen> */}
-
             <View
               style={{
                 ...styles.formWrapper,
@@ -74,40 +92,18 @@ export default function RegistrationScreen({ navigation }) {
             >
               <View style={styles.avatarWrapper}>
                 <View style={styles.fotoWrapper}>
-                  <Image
-                    source={require("../assets/avatarExample.jpg")}
-                    // objectFit="contain"
-                  />
+                  <Image source={isAvatar ? avatarExample : null} />
                 </View>
 
                 <Pressable
-                  onPress={() => {
-                    console.log(123);
-                  }}
-                  style={styles.addAvatarBtn}
-                  // activeOpacity={0.7}
-                  // onPress={() => keyboardHide()}
+                  onPress={onPressBtnAvatar}
+                  style={isAvatar ? styles.delAvatarBtn : styles.addAvatarBtn}
                 >
-                  <Svg
-                    width="13"
-                    height="13"
-                    viewBox="0 0 32 32"
-                    style={{
-                      //   transform: [{ rotate: "45deg" }],
-                      color: "#ff6c00",
-                    }}
-                  >
-                    <Path
-                      fill="currentColor"
-                      d="M17.231 0h-2.462v14.769h-14.769v2.462h14.769v14.769h2.462v-14.769h14.769v-2.462h-14.769v-14.769z"
-                    />
-                  </Svg>
-                  {/* <SvgCross
-                      width="13"
-                      height="13"
-                      // fill={"red"}
-                      // style={{ transform: [{ rotate: "45deg" }] }}
-                    /> */}
+                  <AntDesign
+                    name="plus"
+                    size={18}
+                    color={isAvatar ? "#E8E8E8" : "#FF6C00"}
+                  />
                 </Pressable>
               </View>
               <View style={styles.titleWrapper}>
@@ -216,24 +212,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    // alignItems: "center",
-    // justifyContent: "center",
   },
 
   imgBG: {
     flex: 1,
     resizeMode: "cover",
     justifyContent: "flex-end",
-    // alignItems: "center",
   },
 
   KAVWrapper: {
-    // flex: 1,
     justifyContent: "flex-end",
   },
 
   formWrapper: {
-    // height: 550,
     paddingHorizontal: 16,
     paddingTop: 92,
     paddingBottom: 78,
@@ -271,22 +262,33 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
 
+  delAvatarBtn: {
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
+    transform: [{ rotate: "45deg" }],
+    right: -12,
+    bottom: 14,
+    height: 25,
+    width: 25,
+    borderWidth: 1,
+    borderRadius: 13,
+    borderColor: "#E8E8E8",
+    backgroundColor: "#fff",
+    color: "red",
+  },
+
   titleWrapper: {
     alignItems: "center",
     marginBottom: 32,
   },
 
   title: {
-    // marginTop: 92,
     color: `#212121`,
     fontSize: 30,
     letterSpacing: 0.01,
     fontWeight: "500",
     fontFamily: "Roboto-Medium",
-
-    // fontWeight: 500,
-    // lineHeight: 35,
-    // font-style: normal;
   },
 
   inpupWrapperLoginEmail: {
@@ -295,7 +297,6 @@ const styles = StyleSheet.create({
 
   inputLoginEmail: {
     borderWidth: 1,
-    // borderColor: "#E8E8E8",
     borderRadius: 8,
     backgroundColor: "#F6F6F6",
     color: "#212121",
@@ -303,7 +304,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
     fontFamily: "Roboto-Regular",
-    // placeholderTextColor: "#BDBDBD",
   },
 
   inpupWrapperPassword: {
@@ -312,7 +312,6 @@ const styles = StyleSheet.create({
 
   inputPassword: {
     borderWidth: 1,
-    // borderColor: "#E8E8E8",
     borderRadius: 8,
     backgroundColor: "#F6F6F6",
     color: "#212121",

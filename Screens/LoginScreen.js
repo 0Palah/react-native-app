@@ -15,6 +15,9 @@ import {
   Pressable,
 } from "react-native";
 
+import { useDispatch } from "react-redux";
+import { authSignInUser } from "../redux/auth/authOperations";
+
 import Svg, { Path } from "react-native-svg";
 import SvgCross from "../assets/cross.svg";
 
@@ -30,6 +33,8 @@ export default function LoginScreen({ navigation }) {
   const [isInputOnFocus, setIsInputOnFocus] = useState(false);
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
 
+  const dispatch = useDispatch();
+
   // const [platform, setPlatform] = useState("");
 
   // зробити ще одну ф-ю для сабміту, щоб не скидало форму при TouchableWithoutFeedback
@@ -42,8 +47,8 @@ export default function LoginScreen({ navigation }) {
   const onSubmitForm = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
+    dispatch(authSignInUser(state));
     setState(initialState);
-    console.log(state);
   };
 
   const togglePasswordHide = () => {
