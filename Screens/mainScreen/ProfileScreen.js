@@ -24,7 +24,14 @@ import {
   authSignUpUser,
 } from "../../redux/auth/authOperations";
 
-import { collection, getDocs, doc, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  onSnapshot,
+  where,
+  query,
+} from "firebase/firestore";
 
 import { firestoreDB } from "../../firebase/config";
 
@@ -40,14 +47,18 @@ export default function ProfileScreen({ route, navigation }) {
 
   const dispatch = useDispatch();
 
-  const getAllPosts = async () => {
-    const querySnapshot = await onSnapshot(
-      collection(firestoreDB, "posts"),
-      (data) => {
-        // console.log("data.docs: ============>", data.docs[0].data());
-        setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      }
-    );
+  const getPosts = async () => {
+    try {
+      const querySnapshot = await onSnapshot(
+        query(collection(firestoreDB, "posts"), where("userId", "==", userId)),
+        (data) => {
+          // console.log("data.docs: ============>", data);
+          setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const keyboardHide = () => {
@@ -68,9 +79,13 @@ export default function ProfileScreen({ route, navigation }) {
   };
 
   useEffect(() => {
-    getAllPosts();
+    getPosts();
     // console.log(posts);
   }, []);
+
+  const addLikes = () => {
+    console.log("addLike");
+  };
 
   return (
     // <TouchableWithoutFeedback onPress={keyboardHide}>
@@ -154,54 +169,67 @@ export default function ProfileScreen({ route, navigation }) {
                   <View style={styles.imgWrapper}>
                     <Image source={{ uri: item.photo }} style={styles.img} />
                   </View>
+                  <View style={styles.descWrapper}>
+                    <View>
+                      <Text style={styles.postTitle}>{item.title} </Text>
+                    </View>
+                    <View style={styles.allLinksWrapper}>
+                      <View style={styles.commentsAndLikes}>
+                        <TouchableOpacity
+                          style={styles.commentLinkWrapper}
+                          activeOpacity={0.7}
+                          onPress={() =>
+                            navigation.navigate("CommentsScreen", {
+                              postId: item.id,
+                              uri: item.photo,
+                            })
+                          }
+                        >
+                          <Feather
+                            name="message-circle"
+                            size={24}
+                            color="#FF6C00"
+                            style={styles.commentIcon}
+                          />
+                          <Text style={styles.comment}>
+                            {/* {console.log("comCount===", comCount)} */}8
+                          </Text>
+                        </TouchableOpacity>
 
-                  <View>
-                    <Text style={styles.postTitle}>{item.title} </Text>
-                  </View>
+                        <TouchableOpacity
+                          style={styles.likeLinkWrapper}
+                          activeOpacity={0.7}
+                          onPress={() => addLikes()}
+                        >
+                          <Feather name="thumbs-up" size={24} color="#FF6C00" />
+                          <Text style={styles.like}>
+                            {/* {console.log("comCount===", comCount)} */}8
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
 
-                  <View style={styles.allLinksWrapper}>
-                    <TouchableOpacity
-                      style={styles.commentLinkWrapper}
-                      activeOpacity={0.7}
-                      onPress={() =>
-                        navigation.navigate("CommentsScreen", {
-                          postId: item.id,
-                          uri: item.photo,
-                        })
-                      }
-                    >
-                      <Feather
-                        name="message-circle"
-                        size={24}
-                        color="#BDBDBD"
-                        style={styles.commentIcon}
-                      />
-                      <Text style={styles.comment}>
-                        {/* {console.log("comCount===", comCount)} */}8
-                      </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      style={styles.mapLinkWrapper}
-                      activeOpacity={0.7}
-                      onPress={() =>
-                        navigation.navigate("MapScreen", {
-                          location: {
-                            name: item.location,
-                            latitude: item.latitude,
-                            longitude: item.longitude,
-                          },
-                        })
-                      }
-                    >
-                      <Feather
-                        name="map-pin"
-                        size={24}
-                        color="#BDBDBD"
-                        style={styles.mapPin}
-                      />
-                      <Text style={styles.location}>{item.location}</Text>
-                    </TouchableOpacity>
+                      <TouchableOpacity
+                        style={styles.mapLinkWrapper}
+                        activeOpacity={0.7}
+                        onPress={() =>
+                          navigation.navigate("MapScreen", {
+                            location: {
+                              name: item.location,
+                              latitude: item.latitude,
+                              longitude: item.longitude,
+                            },
+                          })
+                        }
+                      >
+                        <Feather
+                          name="map-pin"
+                          size={24}
+                          color="#BDBDBD"
+                          style={styles.mapPin}
+                        />
+                        <Text style={styles.location}>{item.location}</Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 </View>
               );
@@ -239,6 +267,7 @@ const styles = StyleSheet.create({
   formWrapper: {
     // height: 550,
     paddingHorizontal: 16,
+    paddingBottom: 43,
     paddingTop: 92,
     // paddingBottom: 78,
     borderTopLeftRadius: 25,
@@ -317,6 +346,8 @@ const styles = StyleSheet.create({
     objectFit: "cover",
   },
 
+  descWrapper: { paddingHorizontal: 16 },
+
   postTitle: {
     marginTop: 8,
     fontSize: 16,
@@ -331,9 +362,15 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
 
+  commentsAndLikes: {
+    flexDirection: "row",
+    // justifyContent: "space-between",
+  },
+
   commentLinkWrapper: {
     flexDirection: "row",
     alignItems: "center",
+    // marginLeft: 24,
   },
 
   comment: {
@@ -346,6 +383,26 @@ const styles = StyleSheet.create({
   },
 
   commentIcon: {
+    // flexDirection: "row",
+    transform: [{ scaleX: -1 }],
+  },
+
+  likeLinkWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: 24,
+  },
+
+  like: {
+    fontFamily: "Roboto-Regular",
+    fontWeight: "400",
+    fontSize: 16,
+    lineHeight: 19,
+    color: "#BDBDBD",
+    marginLeft: 6,
+  },
+
+  likeIcon: {
     // flexDirection: "row",
   },
 

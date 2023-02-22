@@ -234,6 +234,7 @@ const styles = StyleSheet.create({
 
   commentIcon: {
     // flexDirection: "row",
+    transform: [{ scaleX: -1 }],
   },
 
   mapLinkWrapper: {
