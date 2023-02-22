@@ -18,8 +18,11 @@ import {
 
 import Svg, { Path } from "react-native-svg";
 
-import { useDispatch } from "react-redux";
-import { authSignUpUser } from "../../redux/auth/authOperations";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  authSignOutUser,
+  authSignUpUser,
+} from "../../redux/auth/authOperations";
 
 import { collection, getDocs, doc, onSnapshot } from "firebase/firestore";
 
@@ -28,6 +31,7 @@ import { firestoreDB } from "../../firebase/config";
 import { Feather } from "@expo/vector-icons";
 
 export default function ProfileScreen({ route, navigation }) {
+  const { userId, login } = useSelector((state) => state.auth);
   const [posts, setPosts] = useState([]);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
@@ -69,135 +73,146 @@ export default function ProfileScreen({ route, navigation }) {
   }, []);
 
   return (
-    <TouchableWithoutFeedback onPress={keyboardHide}>
-      <View style={styles.container}>
-        <StatusBar style="auto" />
-        <ImageBackground
-          source={require("../../assets/photo-bg.jpg")}
-          style={styles.imgBG}
-        >
-          {/* <KeyboardAvoidingView
+    // <TouchableWithoutFeedback onPress={keyboardHide}>
+    <View style={styles.container}>
+      {/* <StatusBar style="auto" /> */}
+      <ImageBackground
+        source={require("../../assets/photo-bg.jpg")}
+        style={styles.imgBG}
+      >
+        {/* <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : ""}
             style={styles.KAVWrapper}
           > */}
-          <View
-            style={{
-              ...styles.formWrapper,
-              // marginBottom: isShowKeyboard ? -175 : 0,
-            }}
-          >
-            <View style={styles.avatarWrapper}>
-              <View style={styles.fotoWrapper}>
-                <Image
-                  source={require("../../assets/avatarExample.jpg")}
-                  // objectFit="contain"
-                />
-              </View>
+        <View
+          style={{
+            ...styles.formWrapper,
+            // marginBottom: isShowKeyboard ? -175 : 0,
+          }}
+        >
+          <View style={styles.avatarWrapper}>
+            <View style={styles.fotoWrapper}>
+              <Image
+                source={require("../../assets/avatarExample.jpg")}
+                // objectFit="contain"
+              />
+            </View>
 
-              <Pressable
-                onPress={() => {
-                  console.log(123);
+            <Pressable
+              onPress={() => {
+                console.log(123);
+              }}
+              style={styles.addAvatarBtn}
+              // activeOpacity={0.7}
+              // onPress={() => keyboardHide()}
+            >
+              <Svg
+                width="13"
+                height="13"
+                viewBox="0 0 32 32"
+                style={{
+                  //   transform: [{ rotate: "45deg" }],
+                  color: "#ff6c00",
                 }}
-                style={styles.addAvatarBtn}
-                // activeOpacity={0.7}
-                // onPress={() => keyboardHide()}
               >
-                <Svg
-                  width="13"
-                  height="13"
-                  viewBox="0 0 32 32"
-                  style={{
-                    //   transform: [{ rotate: "45deg" }],
-                    color: "#ff6c00",
-                  }}
-                >
-                  <Path
-                    fill="currentColor"
-                    d="M17.231 0h-2.462v14.769h-14.769v2.462h14.769v14.769h2.462v-14.769h14.769v-2.462h-14.769v-14.769z"
-                  />
-                </Svg>
-                {/* <SvgCross
+                <Path
+                  fill="currentColor"
+                  d="M17.231 0h-2.462v14.769h-14.769v2.462h14.769v14.769h2.462v-14.769h14.769v-2.462h-14.769v-14.769z"
+                />
+              </Svg>
+              {/* <SvgCross
                       width="13"
                       height="13"
                       // fill={"red"}
                       // style={{ transform: [{ rotate: "45deg" }] }}
                     /> */}
-              </Pressable>
-            </View>
-            <View style={styles.titleWrapper}>
-              <Text style={styles.title}>Natali Romanova</Text>
-            </View>
-            <FlatList
-              style={styles.list}
-              data={posts}
-              // extraData={posts}
-              renderItem={({ item }) => {
-                // console.log(item);
-                // const comCount = getCommentsCount(item.id);
-                return (
-                  <View style={styles.postWrapper}>
-                    <View style={styles.imgWrapper}>
-                      <Image source={{ uri: item.photo }} style={styles.img} />
-                    </View>
-
-                    <View>
-                      <Text style={styles.postTitle}>{item.title} </Text>
-                    </View>
-
-                    <View style={styles.allLinksWrapper}>
-                      <TouchableOpacity
-                        style={styles.commentLinkWrapper}
-                        activeOpacity={0.7}
-                        onPress={() =>
-                          navigation.navigate("CommentsScreen", {
-                            postId: item.id,
-                            uri: item.photo,
-                          })
-                        }
-                      >
-                        <Feather
-                          name="message-circle"
-                          size={24}
-                          color="#BDBDBD"
-                          style={styles.commentIcon}
-                        />
-                        <Text style={styles.comment}>
-                          {/* {console.log("comCount===", comCount)} */}8
-                        </Text>
-                      </TouchableOpacity>
-
-                      <TouchableOpacity
-                        style={styles.mapLinkWrapper}
-                        activeOpacity={0.7}
-                        onPress={() =>
-                          navigation.navigate("MapScreen", {
-                            location: {
-                              name: item.location,
-                              latitude: item.latitude,
-                              longitude: item.longitude,
-                            },
-                          })
-                        }
-                      >
-                        <Feather
-                          name="map-pin"
-                          size={24}
-                          color="#BDBDBD"
-                          style={styles.mapPin}
-                        />
-                        <Text style={styles.location}>{item.location}</Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                );
-              }}
-              keyExtractor={(item, idx) => idx.toString()}
-            />
+            </Pressable>
           </View>
-          {/* </KeyboardAvoidingView> */}
-        </ImageBackground>
-      </View>
-    </TouchableWithoutFeedback>
+
+          <TouchableOpacity
+            style={styles.logoutBtn}
+            activeOpacity={0.7}
+            onPress={() => {
+              dispatch(authSignOutUser());
+            }}
+          >
+            <Feather name="log-out" size={24} color="#BDBDBD" />
+          </TouchableOpacity>
+
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title}>{login}</Text>
+          </View>
+          <FlatList
+            style={styles.list}
+            data={posts}
+            // extraData={posts}
+            renderItem={({ item }) => {
+              // console.log(item);
+              // const comCount = getCommentsCount(item.id);
+              return (
+                <View style={styles.postWrapper}>
+                  <View style={styles.imgWrapper}>
+                    <Image source={{ uri: item.photo }} style={styles.img} />
+                  </View>
+
+                  <View>
+                    <Text style={styles.postTitle}>{item.title} </Text>
+                  </View>
+
+                  <View style={styles.allLinksWrapper}>
+                    <TouchableOpacity
+                      style={styles.commentLinkWrapper}
+                      activeOpacity={0.7}
+                      onPress={() =>
+                        navigation.navigate("CommentsScreen", {
+                          postId: item.id,
+                          uri: item.photo,
+                        })
+                      }
+                    >
+                      <Feather
+                        name="message-circle"
+                        size={24}
+                        color="#BDBDBD"
+                        style={styles.commentIcon}
+                      />
+                      <Text style={styles.comment}>
+                        {/* {console.log("comCount===", comCount)} */}8
+                      </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      style={styles.mapLinkWrapper}
+                      activeOpacity={0.7}
+                      onPress={() =>
+                        navigation.navigate("MapScreen", {
+                          location: {
+                            name: item.location,
+                            latitude: item.latitude,
+                            longitude: item.longitude,
+                          },
+                        })
+                      }
+                    >
+                      <Feather
+                        name="map-pin"
+                        size={24}
+                        color="#BDBDBD"
+                        style={styles.mapPin}
+                      />
+                      <Text style={styles.location}>{item.location}</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              );
+            }}
+            keyExtractor={(item, idx) => idx.toString()}
+          />
+        </View>
+        {/* </KeyboardAvoidingView> */}
+      </ImageBackground>
+    </View>
+    // </TouchableWithoutFeedback>
   );
 }
 
@@ -213,7 +228,7 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     justifyContent: "flex-end",
-    marginBottom: -83,
+    marginBottom: -100,
   },
 
   KAVWrapper: {
@@ -229,7 +244,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     backgroundColor: "#fff",
-    marginTop: 220,
+    marginTop: 200,
     marginBottom: 83,
   },
 
@@ -260,6 +275,12 @@ const styles = StyleSheet.create({
     borderRadius: 13,
     borderColor: "#FF6C00",
     backgroundColor: "#fff",
+  },
+
+  logoutBtn: {
+    position: "absolute",
+    right: 16,
+    top: 22,
   },
 
   titleWrapper: {
